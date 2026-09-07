@@ -25,7 +25,11 @@
     "longDescription": "概念讲解编排（explain-concept）、D2 精确结构图、Excalidraw 手绘白板、隔离任务上下文协议，以及论文精读 / 博客共写 / 即时讲解三大工作流命令。",
     "developerName": "Kozmosa",
     "category": "Productivity",
-    "capabilities": ["Interactive", "Read", "Write"],
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
     "websiteURL": "https://github.com/Kozmosa/present2me"
   }
 }

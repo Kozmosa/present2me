@@ -12,7 +12,10 @@
       },
       "homepage": "https://github.com/Kozmosa/present2me",
       "repository": "https://github.com/Kozmosa/present2me",
-      "categories": ["workflow", "visualization"]
+      "categories": [
+        "workflow",
+        "visualization"
+      ]
     }
   ]
 }
