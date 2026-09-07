@@ -1,0 +1,22 @@
+# 依赖与构建产物
+node_modules/
+tools/excalidraw-viewer/dist/
+tools/excalidraw-viewer/viewer.js
+tools/excalidraw-viewer/viewer.css
+
+# 会话本地数据
+.zcode/
+.DS_Store
+
+# 临时讲解产物（无任务上下文时的草稿图），但保留目录约定
+scratch/*
+!scratch/.gitkeep
+
+# setup 状态（机器本地）
+config/setup-state.json
+
+# 查看器服务运行时文件
+*.viewer.log
+tools/excalidraw-viewer/.server.pid
+tools/excalidraw-viewer/.server.port
+tools/excalidraw-viewer/assets/

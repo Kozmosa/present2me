@@ -1,0 +1,64 @@
+# present2me 工具登记表
+# status.sh 按 check 命令逐项探测（在仓库根执行；不得打印任何密钥）。
+# how: 一句话开通方式; doc: 接入手册路径（null 表示无需手册）。
+tools:
+  - id: lark-cli
+    name: 飞书 Lark CLI
+    category: doc
+    check: lark-cli whoami
+    how: "已授权则直接可用；重登: lark-cli auth login"
+    doc: null
+  - id: gh
+    name: GitHub CLI
+    category: dev
+    check: gh auth status
+    how: "gh auth login"
+    doc: null
+  - id: d2
+    name: D2 图表编译器
+    category: viz
+    check: d2 --version
+    how: "./setup.sh 或 brew install d2"
+    doc: null
+  - id: mermaid
+    name: Mermaid CLI
+    category: viz
+    check: mmdc --version
+    how: "npm i -g @mermaid-js/mermaid-cli"
+    doc: null
+  - id: excalidraw-viewer
+    name: Excalidraw 本地查看器
+    category: viz
+    check: test -f tools/excalidraw-viewer/viewer.js
+    how: "./setup.sh（npm install + esbuild 构建）"
+    doc: null
+  - id: anki
+    name: Anki（anki-connect）
+    category: knowledge
+    check: curl -sf -m 2 -X POST -H "Content-Type: application/json" -d "{\"action\":\"version\",\"params\":{}}" http://127.0.0.1:8765
+    how: "安装 anki-connect 插件(2055492159)并保持 Anki 运行"
+    doc: config/setup-docs/anki.md
+  - id: siyuan
+    name: 思源 SiYuan
+    category: knowledge
+    check: 'curl -sf -m 2 -H "Authorization: Token $(tools/siyuan-token.sh 2>/dev/null)" http://127.0.0.1:58131/api/system/version'
+    how: "思源需在设置里配置 API token 并保持内核运行（默认端口 58131）"
+    doc: config/setup-docs/siyuan.md
+  - id: notion
+    name: Notion
+    category: knowledge
+    check: 'grep -qs "^NOTION_TOKEN=" "$HOME/.config/present2me/env" 2>/dev/null || [ -n "${NOTION_TOKEN:-}" ]'
+    how: "创建 integration，token 写入 ~/.config/present2me/env"
+    doc: config/setup-docs/notion.md
+  - id: flomo
+    name: Flomo
+    category: knowledge
+    check: 'grep -qs "^FLOMO_WEBHOOK_URL=" "$HOME/.config/present2me/env" 2>/dev/null || [ -n "${FLOMO_WEBHOOK_URL:-}" ]'
+    how: "flomo 设置→API，webhook 写入 ~/.config/present2me/env"
+    doc: config/setup-docs/flomo.md
+  - id: gdocs
+    name: Google Docs
+    category: doc
+    check: 'test -d "$HOME/.config/present2me/gdocs"'
+    how: "GCP OAuth 桌面凭据（较重，按需开通）"
+    doc: config/setup-docs/gdocs.md

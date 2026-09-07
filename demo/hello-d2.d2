@@ -1,0 +1,60 @@
+# present2me 能力全景 —— D2 渲染示例
+# 渲染: bash tools/render-d2.sh demo/hello-d2.d2
+
+direction: right
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 4
+    pad: 50
+  }
+}
+
+用户: {
+  shape: person
+  style.font-size: 20
+}
+
+讲解: explain-concept {
+  style.fill: "#e8f4f8"
+  可视化选型
+}
+任务: task-context {
+  style.fill: "#e8f4f8"
+  隔离上下文
+}
+
+viz-d2: {
+  shape: rectangle
+  label: "viz-d2\n精确结构图"
+  style.fill: "#d0ebff"
+}
+viz-excalidraw: {
+  shape: rectangle
+  label: "viz-excalidraw\n手绘白板"
+  style.fill: "#d0ebff"
+}
+飞书: {
+  shape: oval
+  label: "飞书文档/白板\n(lark-cli)"
+  style.fill: "#fff3bf"
+}
+
+knowledge: 知识沉淀 {
+  style.multiple: true
+  style.fill: "#d3f9d8"
+  style-pairs: 风格语料 before/after
+  style-profile: 写作风格档案
+}
+
+用户 -> 讲解: 给我讲讲 X
+用户 -> 任务: 丢 PDF + 目标
+讲解 -> viz-d2: 流程/架构
+讲解 -> viz-excalidraw: 概念白板
+任务 -> 讲解: 精读时讲解
+viz-excalidraw -> 飞书: 定稿推送
+viz-d2 -> 飞书: 定稿推送
+飞书 -> 用户: 批注 comments
+用户 -> knowledge: 终稿
+飞书 -> knowledge: 版本对沉淀
+knowledge -> 讲解: 下次写初稿前必读

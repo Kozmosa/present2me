@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>present2me · Excalidraw 画板</title>
+  <link rel="stylesheet" href="./viewer.css"/>
+  <style>
+    html, body { margin: 0; height: 100%; font-family: -apple-system, "PingFang SC", sans-serif; }
+    .bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 999;
+      display: flex; align-items: center; gap: 10px; padding: 0 14px;
+      background: #fdfdfd; border-bottom: 1px solid #e0e0e0; font-size: 13px;
+    }
+    .bar .fname { font-family: ui-monospace, monospace; color: #444; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 50%; }
+    .bar .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+    .bar .dot.dirty { background: #f08c00; }
+    .bar .dot.clean { background: #2f9e44; }
+    .bar .saved { color: #2f9e44; }
+    .bar .error { color: #e03131; }
+    .bar button {
+      margin-left: auto; border: 1px solid #c9c9c9; background: #fff; border-radius: 6px;
+      padding: 4px 12px; font-size: 13px; cursor: pointer;
+    }
+    .bar button:disabled { color: #999; cursor: default; }
+    .bar .tip { color: #999; font-size: 12px; }
+    .canvas { position: fixed; top: 40px; left: 0; right: 0; bottom: 0; }
+    .loading { padding: 18px; color: #666; }
+  </style>
+</head>
+<body>
+  <div id="root"><div class="loading">加载中…</div></div>
+  <script>
+    window.__p2mErrs = [];
+    window.addEventListener("error", function (e) {
+      window.__p2mErrs.push(String(e.message) + " @" + (e.filename || "") + ":" + e.lineno);
+    });
+    window.addEventListener("unhandledrejection", function (e) {
+      window.__p2mErrs.push("rejection: " + String(e.reason));
+    });
+  </script>
+  <script src="./viewer.js"></script>
+</body>
+</html>

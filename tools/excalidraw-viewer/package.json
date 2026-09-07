@@ -1,0 +1,22 @@
+{
+  "name": "present2me-excalidraw-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "本地自托管 Excalidraw 查看器，支持把画板改动保存回 .excalidraw 文件",
+  "scripts": {
+    "build": "esbuild src/main.jsx --bundle --outfile=viewer.js --format=iife --loader:.js=jsx --loader:.woff2=file --loader:.woff=file --loader:.ttf=file --conditions=production --define:process.env.NODE_ENV=\\\"production\\\" --asset-names=assets/[name]-[hash] --minify",
+    "serve": "node server.mjs"
+  },
+  "dependencies": {
+    "@excalidraw/excalidraw": "^0.18.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
