@@ -1,0 +1,41 @@
+# present2me 文档站配置
+# 运行: tools/docs.sh serve   （uvx 执行，依赖缓存于 ~/.cache/uv，仓库零污染）
+site_name: present2me
+site_description: Agent 讲解·演示·协作工作区
+site_url: ""
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.instant
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+
+# knowledge/ 与 workflows/ 经 docs/ 下软链纳入渲染；site/ 已 gitignore
+nav:
+  - 首页: README.md
+  - 快速开始: getting-started.md
+  - 多 Agent 接入: agents.md
+  - 讲解与可视化: visualization.md
+  - 任务文件夹: tasks.md
+  - 工作流详解: workflows.md
+  - 工具与凭据: tools.md
+  - 常见问题: faq.md
+  - 工作流剧本:
+      - 论文精读: workflows/study-paper.md
+      - 博客共写: workflows/blog-cowrite.md
+      - 即时讲解: workflows/quick-explain.md
+  - Agent 协议: agent-protocol.md
+  - 知识库:
+      - 写作风格档案: knowledge/style-profile.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences

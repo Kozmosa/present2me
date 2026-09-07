@@ -40,7 +40,7 @@ cp -R tasks/_template tasks/$(date +%F)-<slug>
 
 - 暂停：TASK.md 改 `status: paused`，Agent 不会自动接续。
 - 完结（**需要你确认**）：`status: done` → 整目录移入 `archive/` →
-  有价值的洞见提炼进 `knowledge/insights/<slug>.md`；博客类任务额外走[风格沉淀](workflows.md#定稿沉淀)。
+  有价值的洞见提炼进 `knowledge/insights/<slug>.md`；博客类任务额外走[风格沉淀](workflows.md)。
 
 ## 状态语义
 

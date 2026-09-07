@@ -46,8 +46,8 @@ bash tools/excalidraw-viewer/open.sh demo/hello.excalidraw
 对本仓库里的任何 Agent 说人话即可：
 
 - 「给我讲讲 CRDT，画张图」→ 文字讲解 + 自动出图
-- （拖入一篇 PDF）「今天下午精读这篇论文，产出 insights」→ Agent 建 `tasks/` 任务文件夹按 [论文精读工作流](workflows.md#论文精读-study-paper) 推进
-- 「我口述一篇博客的思路，你写初稿到飞书」→ [博客共写工作流](workflows.md#博客共写-blog-cowrite)
+- （拖入一篇 PDF）「今天下午精读这篇论文，产出 insights」→ Agent 建 `tasks/` 任务文件夹按[论文精读工作流](workflows.md) 推进
+- 「我口述一篇博客的思路，你写初稿到飞书」→ [博客共写工作流](workflows.md)
 
 ## 目录速览
 

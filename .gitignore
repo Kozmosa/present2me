@@ -1,5 +1,6 @@
 # 依赖与构建产物
 node_modules/
+site/
 tools/excalidraw-viewer/dist/
 tools/excalidraw-viewer/viewer.js
 tools/excalidraw-viewer/viewer.css

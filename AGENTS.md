@@ -15,7 +15,7 @@
 | `knowledge/` | 沉淀：style-pairs（风格语料）/ style-profile.md（风格档案）/ insights |
 | `archive/` | 已完结任务 |
 | `scratch/` | 无任务上下文的临时讲解产物（gitignored） |
-| `tools/` | status.sh（授权总览）/ render-d2.sh / excalidraw-viewer |
+| `tools/` | status.sh（授权总览）/ render-d2.sh / excalidraw-viewer / docs.sh（文档站） |
 | `config/tools.yaml` | 全部工具登记表（状态、检查命令、接入手册） |
 | `demo/` | 能力演示样例 |
 
@@ -45,6 +45,9 @@
    （exit 10 = 需确认后带 flag 重试）。
 5. **语料只增不改**：`knowledge/style-pairs/`、各任务 `draft-vN` 版本序列、
    `sources/` 原始输入——是风格学习与回溯的原料，不覆盖不删除。
+6. **目录卫生**：`node_modules/`、`site/`、`dist/` 是构建产物，**不遍历、不读取、不修改**；
+   搜索时显式排除，避免无谓的 token 消耗。文档站经 `tools/docs.sh`（uvx）运行，
+   不要往仓库引入 venv 或新的包管理目录。
 
 ## 用户风格偏好（交流与写作）
 
