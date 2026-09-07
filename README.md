@@ -16,6 +16,11 @@ bash tools/status.sh  # 随时查看所有工具接入状态
 - （丢一篇 PDF）"今天下午精读这篇，产出 insights" → `workflows/study-paper.md`
 - "我口述一篇博客的思路，你写初稿到飞书" → `workflows/blog-cowrite.md`
 
+## 详细文档
+
+中文使用说明见 [docs/README.md](docs/README.md)：
+快速开始 · 多 Agent 接入 · 讲解与可视化 · 任务文件夹 · 工作流 · 工具与凭据 · 常见问题。
+
 ## 各 Agent 接入方式
 
 | Agent | 接入 | 说明 |
