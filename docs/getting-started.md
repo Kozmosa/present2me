@@ -57,11 +57,11 @@ plugins/         ZCode / Codex 插件体（skills/tools/workflows/commands 单�
 marketplace.json ZCode 插件市场清单（本仓库即市场）
 .agents/plugins/ Codex 插件市场清单
 workflows/       三大工作流剧本（软链 → plugins/present2me/workflows）
-tasks/           进行中任务（每任务一个文件夹）
-knowledge/       沉淀：风格语料 / 风格档案 / insights
+tasks/           进行中任务（每任务一个文件夹；个人数据，gitignored）
+knowledge/       沉淀：风格语料 / 风格档案 / insights（gitignored）
 tools/           脚本：状态 / D2 渲染 / 查看器（软链）+ 文档站 / 发版（实体）
 config/          工具登记表（软链）+ 挂账工具接入手册
-archive/         已完结任务
+archive/         已完结任务（gitignored）
 scratch/         临时讲解产物（gitignored）
 demo/            能力演示样例
 ```

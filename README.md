@@ -69,8 +69,8 @@ marketplace.json     ZCode 插件市场清单（本仓库即市场）
 .agents/skills/      → ../plugins/present2me/skills（ZCode/Codex 技能发现软链）
 .claude/skills       → ../.agents/skills（Claude Code 兼容软链）
 workflows/           → plugins/present2me/workflows（剧本软链）
-tasks/               隔离任务文件夹（TASK.md 为上下文锚点）
-knowledge/           style-pairs 风格语料 · style-profile.md 风格档案 · insights
+tasks/               隔离任务文件夹（TASK.md 为上下文锚点；个人数据，gitignored）
+knowledge/           style-pairs 风格语料 · style-profile.md 风格档案 · insights（gitignored）
 tools/               docs.sh · release.sh（实体）+ status.sh · render-d2.sh · 查看器（软链）
 config/              tools.yaml 软链 · setup-docs/ 挂账工具接入手册
 archive/ scratch/ demo/

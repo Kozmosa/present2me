@@ -13,6 +13,15 @@ plugins/present2me/tools/excalidraw-viewer/viewer.css
 scratch/*
 !scratch/.gitkeep
 
+# 个人数据（仓库 public，语料/任务记录不入库），模板随 workflow 内嵌重建
+knowledge/*
+!knowledge/.gitkeep
+tasks/*
+!tasks/_template
+!tasks/_template/**
+archive/*
+!archive/.gitkeep
+
 # setup 状态（机器本地，status.sh 写入插件目录）
 plugins/present2me/config/setup-state.json
 

@@ -11,12 +11,12 @@
 | `plugins/present2me/` | **插件体（单一事实源）**：skills / tools / workflows / commands / config，随 ZCode 与 Codex 插件市场分发 |
 | `marketplace.json` | ZCode 插件市场清单（安装入口 `Kozmosa/present2me`） |
 | `.agents/plugins/marketplace.json` | Codex 插件市场清单（安装入口 `codex plugin marketplace add Kozmosa/present2me`） |
-| `tasks/<日期>-<slug>/` | 进行中任务（隔离上下文），协议见 task-context 技能 |
-| `tasks/_template/` | 任务文件夹模板 |
+| `tasks/<日期>-<slug>/` | 进行中任务（隔离上下文，gitignored 本地数据），协议见 task-context 技能 |
+| `tasks/_template/` | 任务文件夹模板（随仓库分发） |
 | `workflows/` | 软链 → 插件 workflows/：study-paper / blog-cowrite / quick-explain 剧本 |
 | `.agents/skills/` | 软链 → 插件 skills/（本仓库技能，下表） |
-| `knowledge/` | 沉淀：style-pairs（风格语料）/ style-profile.md（风格档案）/ insights |
-| `archive/` | 已完结任务 |
+| `knowledge/` | 沉淀：style-pairs（风格语料）/ style-profile.md（风格档案）/ insights（gitignored 本地数据，档案模板内嵌于 blog-cowrite 剧本） |
+| `archive/` | 已完结任务（gitignored 本地数据） |
 | `scratch/` | 无任务上下文的临时讲解产物（gitignored） |
 | `tools/` | docs.sh（文档站，实体）+ status.sh / render-d2.sh / excalidraw-viewer（软链 → 插件 tools/）+ release.sh（发版） |
 | `config/tools.yaml` | 软链 → 插件 config/tools.yaml：全部工具登记表 |

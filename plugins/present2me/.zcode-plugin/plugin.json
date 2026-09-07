@@ -8,6 +8,7 @@
   },
   "homepage": "https://github.com/Kozmosa/present2me",
   "repository": "https://github.com/Kozmosa/present2me",
+  "license": "MIT",
   "keywords": [
     "explain",
     "visualization",
