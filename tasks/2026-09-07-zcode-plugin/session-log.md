@@ -63,3 +63,23 @@
   - 与 ZCode 改造一并发版：commit → `make release VERSION=0.1.0` → push
     （Codex 用户即可 `codex plugin marketplace add Kozmosa/present2me` 安装）。
   - 可选：ZCode 端 UI 自测确认 plugin.json 加 interface 字段无副作用。
+
+## 2026-09-08 00:55
+
+- 本次做了：
+  - 发版 v0.1.0：commit 2972ad6（双市场改造全量）→ `make release VERSION=0.1.0`
+    （commit 8900d17，diff 仅为 json.dump 数组格式归一化）→ tag v0.1.0 推送 GitHub。
+  - release.sh 补 `--allow-empty`：首个发版版本号已就位时 bump 无 diff 也能落
+    release commit（本次实际有格式 diff，但修掉了这个必踩的未来坑）。
+  - GitHub 源端到端复验：HTTPS clone 在本沙箱不通（github.com:443 超时，
+    SSH/raw 均正常），改用 `codex plugin marketplace add git@github.com:Kozmosa/present2me.git`
+    ——市场识别、插件安装、4 技能 + 4 命令技能迁移全部通过。
+  - 按用户要求清理：`codex plugin remove` + `codex plugin marketplace remove`，
+    本地路径测试市场与 GitHub 验证市场均已移除，codex 恢复干净状态。
+  - TASK.md 置 done（挂账项保留：LICENSE、语料隐私策略、ZCode UI 手测建议）。
+- 关键发现：
+  - 本沙箱网络：github.com:443 不通（WebFetch/codex HTTPS clone 均超时），但
+    SSH(22) 与 raw.githubusercontent.com 正常——排查外部安装问题先分清这两路。
+- 后续（挂账，非本任务）：
+  - LICENSE 补定（发公开市场前的建议项）；knowledge/ 语料公开策略需用户拍板。
+  - ZCode UI 侧手测（设置→插件→添加市场→Kozmosa/present2me）建议走一次。
