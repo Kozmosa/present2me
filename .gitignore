@@ -1,9 +1,9 @@
 # 依赖与构建产物
 node_modules/
 site/
-tools/excalidraw-viewer/dist/
-tools/excalidraw-viewer/viewer.js
-tools/excalidraw-viewer/viewer.css
+plugins/present2me/tools/excalidraw-viewer/dist/
+plugins/present2me/tools/excalidraw-viewer/viewer.js
+plugins/present2me/tools/excalidraw-viewer/viewer.css
 
 # 会话本地数据
 .zcode/
@@ -13,11 +13,11 @@ tools/excalidraw-viewer/viewer.css
 scratch/*
 !scratch/.gitkeep
 
-# setup 状态（机器本地）
-config/setup-state.json
+# setup 状态（机器本地，status.sh 写入插件目录）
+plugins/present2me/config/setup-state.json
 
 # 查看器服务运行时文件
 *.viewer.log
-tools/excalidraw-viewer/.server.pid
-tools/excalidraw-viewer/.server.port
-tools/excalidraw-viewer/assets/
+plugins/present2me/tools/excalidraw-viewer/.server.pid
+plugins/present2me/tools/excalidraw-viewer/.server.port
+plugins/present2me/tools/excalidraw-viewer/assets/

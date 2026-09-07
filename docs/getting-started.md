@@ -52,16 +52,42 @@ bash tools/excalidraw-viewer/open.sh demo/hello.excalidraw
 ## 目录速览
 
 ```
-AGENTS.md        Agent 行为宪法（人也可以读，5 条硬协议）
-workflows/       三大工作流剧本
+AGENTS.md        Agent 行为宪法（人也可以读，7 条硬协议）
+plugins/         ZCode / Codex 插件体（skills/tools/workflows/commands 单一事实源）
+marketplace.json ZCode 插件市场清单（本仓库即市场）
+.agents/plugins/ Codex 插件市场清单
+workflows/       三大工作流剧本（软链 → plugins/present2me/workflows）
 tasks/           进行中任务（每任务一个文件夹）
 knowledge/       沉淀：风格语料 / 风格档案 / insights
-tools/           脚本：状态 / D2 渲染 / Excalidraw 查看器
-config/          工具登记表 + 挂账工具接入手册
+tools/           脚本：状态 / D2 渲染 / 查看器（软链）+ 文档站 / 发版（实体）
+config/          工具登记表（软链）+ 挂账工具接入手册
 archive/         已完结任务
 scratch/         临时讲解产物（gitignored）
 demo/            能力演示样例
 ```
+
+## 作为插件使用（ZCode / Codex，不克隆仓库）
+
+不想克隆整个工作区？本仓库同时是 ZCode 与 Codex 的插件市场：
+
+**ZCode：**
+
+```
+ZCode → 设置 → 插件 → 添加插件市场 → Kozmosa/present2me → 安装 present2me
+```
+
+**Codex（CLI ≥0.121）：**
+
+```
+codex plugin marketplace add Kozmosa/present2me
+codex plugin add present2me@kozmosa-plugins
+```
+
+装完先跑一次 `/p2m-setup` 做依赖预检，即可在任意工作区使用
+explain-concept / viz-d2 / viz-excalidraw / task-context 四个技能与
+`/quick-explain` `/study-paper` `/blog-cowrite` 命令（Codex 端命令以
+迁移技能 `source-command-*` 形式生效）。
+个人数据（风格语料、任务文件夹）不随插件分发。
 
 ## 下一步
 

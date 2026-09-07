@@ -1,7 +1,8 @@
 # Workflow: 单概念即时讲解
 
 > 场景：用户随手问一个概念（"给我讲讲 X""X 是什么"），不涉及长文阅读或多轮工程。
-> 本文件是轻量入口；核心行为规则在 `.agents/skills/explain-concept/SKILL.md`。
+> 本文件是轻量入口；核心行为规则在 explain-concept 技能（插件 `skills/explain-concept/`，
+> present2me 仓库内为 `.agents/skills/` 软链）。
 
 ## 步骤
 

@@ -19,6 +19,9 @@ DATE=$(date +%F)
 cp -R tasks/_template "tasks/${DATE}-${SLUG}"
 ```
 
+工作区没有 `tasks/_template`（非 present2me 仓库、插件安装场景）时，手工创建
+同等结构：`TASK.md`、`session-log.md`、`sources/`、`artifacts/`、`insights/`。
+
 然后立即编辑 `TASK.md`：
 - `status: active`
 - **目标（用户原话）**：逐字记录用户交代的目标，不要转述美化。
@@ -51,7 +54,7 @@ tasks/YYYY-MM-DD-<slug>/
 2. `mv tasks/<任务> archive/<任务原名>`（保留日期前缀）。
 3. 知识提炼：
    - 有价值的洞见 → 摘要进 `knowledge/insights/<slug>.md`（注明来源任务与日期）。
-   - 博客类任务 → 额外执行 `workflows/blog-cowrite.md` 的"版本沉淀"步骤。
+   - 博客类任务 → 额外执行插件目录 `workflows/blog-cowrite.md` 的"版本沉淀"步骤。
 
 ## 状态语义
 

@@ -5,8 +5,8 @@
 本仓库**不建密码库**。每个工具用它自己的官方登录态（lark-cli 的 `~/.lark-cli/`、gh 的钥匙串、思源的本地 token…），
 仓库提供的是：
 
-1. **一张登记表**：`config/tools.yaml`——每工具的检查命令、开通方式、手册路径。
-2. **一条命令总览**：`bash tools/status.sh`——逐项探测，输出 ✅/❌，同时落盘 `config/setup-state.json`。
+1. **一张登记表**：`config/tools.yaml`（软链 → 插件 `plugins/present2me/config/`）——每工具的检查命令、开通方式、手册链接。
+2. **一条命令总览**：`bash tools/status.sh`——逐项探测，输出 ✅/❌，同时落盘插件目录的 `config/setup-state.json`。
 3. **一套接入手册**：`config/setup-docs/`——挂账工具怎么开，开一个算一个。
 
 **铁律：任何 token/secret 不写入本仓库、不打印到终端。**
@@ -55,7 +55,7 @@ lark-cli 层面还有一道闸：高危写操作返回 exit 10，Agent 必须带
 
 ## 新增一个工具
 
-1. `config/tools.yaml` 加一条（id/name/category/check/how/doc）——check 必须只读且不泄密。
+1. `plugins/present2me/config/tools.yaml` 加一条（id/name/category/check/how/doc）——check 必须只读且不泄密，doc 用 GitHub 绝对链接（插件用户也能打开）。
 2. 需要手册就写 `config/setup-docs/<id>.md`。
-3. 复杂操作可加 `tools/<id>-*.sh` 辅助脚本（参考 siyuan-token.sh）。
-4. 若值得让 Agent 自动掌握用法，再考虑加技能（`.agents/skills/`）。
+3. 复杂操作可加 `plugins/present2me/tools/<id>-*.sh` 辅助脚本（参考 siyuan-token.sh）。
+4. 若值得让 Agent 自动掌握用法，再考虑加技能（插件 `skills/`，仓库内经 `.agents/skills/` 软链发现）。

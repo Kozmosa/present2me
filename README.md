@@ -21,25 +21,58 @@ bash tools/status.sh  # 随时查看所有工具接入状态
 中文使用说明见 [docs/README.md](docs/README.md)：
 快速开始 · 多 Agent 接入 · 讲解与可视化 · 任务文件夹 · 工作流 · 工具与凭据 · 常见问题。
 
+## 作为插件安装（ZCode / Codex，任意工作区，无需克隆本仓库）
+
+本仓库同时是 ZCode 与 Codex 的插件市场（marketplace）：插件体为
+`plugins/present2me/`，两平台各读自己的市场清单（ZCode 读根 `marketplace.json`，
+Codex 读 `.agents/plugins/marketplace.json`），插件清单共用
+`.zcode-plugin/plugin.json`（Codex 原生接受该路径）。
+
+**ZCode：**
+
+```
+ZCode → 设置 → 插件 → 添加插件市场 → Kozmosa/present2me → 安装 present2me
+```
+
+**Codex（CLI ≥0.121 / IDE / Desktop）：**
+
+```
+codex plugin marketplace add Kozmosa/present2me
+codex plugin add present2me@kozmosa-plugins
+```
+
+装完得到 4 个技能（explain-concept / viz-d2 / viz-excalidraw / task-context）与
+4 个命令（`/quick-explain` `/study-paper` `/blog-cowrite` `/p2m-setup`；Codex 端
+命令以迁移技能 `source-command-*` 形式生效），先跑一次 `/p2m-setup` 做依赖预检
+（d2、Excalidraw 查看器构建）。个人数据（knowledge/、tasks/）不随插件分发，
+留在各自工作区。
+
+发版（维护者）：`make release VERSION=x.y.z` —— 同步 `plugin.json` 与
+`marketplace.json` 双版本号并打 tag；两处版本必须一致，否则用户端不提示更新
+（Codex 市场条目不带版本号，无需第三处同步）。
+
 ## 各 Agent 接入方式
 
 | Agent | 接入 | 说明 |
 |---|---|---|
-| ZCode | 打开本目录即可 | 原生发现 `.agents/skills/`，读 AGENTS.md |
-| Codex（CLI/IDE/Desktop） | 在本目录启动 | 原生发现 `.agents/skills/`，读 AGENTS.md |
+| ZCode | 打开本目录，或安装插件 | 仓库内原生发现 `.agents/skills/`（软链 → 插件 skills/）；任意工作区可经市场 `Kozmosa/present2me` 安装插件 |
+| Codex（CLI/IDE/Desktop） | 在本目录启动，或安装插件 | 原生发现 `.agents/skills/`，读 AGENTS.md；任意工作区可 `codex plugin add present2me@kozmosa-plugins` 安装 |
 | Claude Code | 在本目录启动 | 经 `.claude/skills → ../.agents/skills` 软链发现技能；CLAUDE.md 引用 AGENTS.md |
 | Claude Desktop / ChatGPT App | 授予本目录文件访问 | 无法自动触发仓库技能；让 Agent 读 AGENTS.md 与 workflows/*.md 照做，或直接运行 tools/*.sh |
 
 ## 目录
 
 ```
-.agents/skills/    技能源（explain-concept / viz-d2 / viz-excalidraw / task-context）
-.claude/skills     → ../.agents/skills（Claude Code 兼容软链）
-workflows/         剧本：study-paper / blog-cowrite / quick-explain
-tasks/             隔离任务文件夹（TASK.md 为上下文锚点）
-knowledge/         style-pairs 风格语料 · style-profile.md 风格档案 · insights
-tools/             status.sh · render-d2.sh · excalidraw-viewer（本地自托管）
-config/            tools.yaml 工具登记表 · setup-docs/ 挂账工具接入手册
+plugins/present2me/  插件体（单一事实源）：skills · tools · workflows · commands · config
+marketplace.json     ZCode 插件市场清单（本仓库即市场）
+.agents/plugins/     Codex 插件市场清单（marketplace.json）
+.agents/skills/      → ../plugins/present2me/skills（ZCode/Codex 技能发现软链）
+.claude/skills       → ../.agents/skills（Claude Code 兼容软链）
+workflows/           → plugins/present2me/workflows（剧本软链）
+tasks/               隔离任务文件夹（TASK.md 为上下文锚点）
+knowledge/           style-pairs 风格语料 · style-profile.md 风格档案 · insights
+tools/               docs.sh · release.sh（实体）+ status.sh · render-d2.sh · 查看器（软链）
+config/              tools.yaml 软链 · setup-docs/ 挂账工具接入手册
 archive/ scratch/ demo/
 ```
 

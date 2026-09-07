@@ -48,7 +48,11 @@ if [[ -L .claude/skills || -d .claude/skills ]]; then
 else
   mkdir -p .claude && ln -sfn ../.agents/skills .claude/skills && ok "已创建 .claude/skills 软链"
 fi
-ok ".agents/skills（ZCode/Codex 原生发现）"
+if [[ -e .agents/skills ]]; then
+  ok ".agents/skills 就绪（软链 → plugins/present2me/skills，ZCode/Codex 原生发现）"
+else
+  mkdir -p .agents && ln -sfn ../plugins/present2me/skills .agents/skills && ok "已创建 .agents/skills 软链"
+fi
 
 say "4/4 工具授权体检"
 bash tools/status.sh || true

@@ -1,0 +1,18 @@
+{
+  "name": "kozmosa-plugins",
+  "plugins": [
+    {
+      "name": "present2me",
+      "source": "./plugins/present2me",
+      "version": "0.1.0",
+      "description": "Agent 讲解·演示·协作能力包：概念讲解编排、D2 结构图、Excalidraw 白板、隔离任务上下文协议与三大工作流命令。",
+      "author": {
+        "name": "Kozmosa",
+        "url": "https://github.com/Kozmosa"
+      },
+      "homepage": "https://github.com/Kozmosa/present2me",
+      "repository": "https://github.com/Kozmosa/present2me",
+      "categories": ["workflow", "visualization"]
+    }
+  ]
+}

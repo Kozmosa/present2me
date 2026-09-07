@@ -24,9 +24,10 @@ metadata:
    字段写错画板会空白或元素错位）。输出位置：
    - 有任务上下文 → `tasks/<活跃任务>/artifacts/<主题>-v<N>.excalidraw`
    - 无任务上下文 → `scratch/<主题>-v<N>.excalidraw`
-3. 打开给用户：
+3. 打开给用户（查看器在本技能所在插件的 `tools/excalidraw-viewer/` 下；
+   present2me 仓库内根目录同名路径为软链，可直接用）：
    ```bash
-   tools/excalidraw-viewer/open.sh <file.excalidraw>
+   <插件根>/tools/excalidraw-viewer/open.sh <file.excalidraw>
    ```
 4. 用户可能直接在画板上改动并点"保存"（回写同一文件）。
    **下次迭代前必须重新读文件**，以文件当前内容为准，不要基于自己上一版记忆改。
@@ -57,5 +58,6 @@ metadata:
 
 ## 注意
 
-- 查看器依赖 `tools/excalidraw-viewer/viewer.js`（setup 时构建）。若缺失，提示用户运行 `./setup.sh`。
+- 查看器依赖构建产物 `viewer.js`。若缺失，提示用户在查看器目录
+  `npm install && npm run build`（present2me 仓库内可 `./setup.sh`；插件用户走 `/p2m-setup`）。
 - `.excalidraw` 是纯 JSON，可直接读写、可 git 版本管理——**文件即真相**。

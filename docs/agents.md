@@ -7,7 +7,7 @@
 | Agent | 接入方式 | 技能自动触发 | 说明 |
 |---|---|---|---|
 | ZCode | 在本目录打开/启动会话 | ✅ | 原生扫描 `.agents/skills/`，自动读 AGENTS.md |
-| Codex（CLI/IDE/Desktop） | 在本目录启动 | ✅ | 官方 REPO scope 就是 `.agents/skills/`（从 cwd 向上到仓库根） |
+| Codex（CLI/IDE/Desktop） | 在本目录启动，或安装插件 | ✅ | 官方 REPO scope 就是 `.agents/skills/`（从 cwd 向上到仓库根）；任意工作区可 `codex plugin add present2me@kozmosa-plugins` 安装 |
 | Claude Code | 在本目录启动 | ✅ | 经 `.claude/skills → ../.agents/skills` 软链发现；CLAUDE.md 引用 AGENTS.md |
 | Claude Desktop | 授予本目录的文件访问 | ❌ | 技能是账号级上传，不吃仓库路径；用降级方案 |
 | ChatGPT App | 同上（文件/文件夹连接器） | ❌ | 同上 |

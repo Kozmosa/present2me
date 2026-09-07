@@ -1,0 +1,31 @@
+{
+  "name": "present2me",
+  "version": "0.1.0",
+  "description": "Agent 讲解·演示·协作能力包：概念讲解编排（explain-concept）、D2 结构图、Excalidraw 白板、隔离任务上下文协议，以及论文精读 / 博客共写 / 即时讲解三大工作流命令。",
+  "author": {
+    "name": "Kozmosa",
+    "url": "https://github.com/Kozmosa"
+  },
+  "homepage": "https://github.com/Kozmosa/present2me",
+  "repository": "https://github.com/Kozmosa/present2me",
+  "keywords": [
+    "explain",
+    "visualization",
+    "d2",
+    "excalidraw",
+    "workflow",
+    "task-context",
+    "writing"
+  ],
+  "skills": "./skills",
+  "commands": "./commands",
+  "interface": {
+    "displayName": "present2me",
+    "shortDescription": "Agent 讲解·演示·协作能力包",
+    "longDescription": "概念讲解编排（explain-concept）、D2 精确结构图、Excalidraw 手绘白板、隔离任务上下文协议，以及论文精读 / 博客共写 / 即时讲解三大工作流命令。",
+    "developerName": "Kozmosa",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/Kozmosa/present2me"
+  }
+}

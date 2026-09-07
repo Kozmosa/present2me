@@ -7,7 +7,7 @@ DEFAULT_GOAL := help
 DATE := $(shell date +%F)
 
 .PHONY: help setup status docs docs-build docs-open \
-        board board-stop d2 d2-watch demo task clean
+        board board-stop d2 d2-watch demo task release release-check clean
 
 help: ## 显示本帮助
 	@echo "present2me 常用目标："
@@ -58,6 +58,15 @@ task: ## 从模板新建任务文件夹: make task SLUG=my-paper
 	@test -n "$(SLUG)" || (echo "用法: make task SLUG=<英文小写连字符slug>"; exit 2)
 	@cp -R tasks/_template "tasks/$(DATE)-$(SLUG)"
 	@echo "已创建 tasks/$(DATE)-$(SLUG) —— 记得在 TASK.md 里逐字填入目标原话"
+
+# ---- 插件发版（同步 plugin.json 与 marketplace.json 双版本 + tag；不 push） ----
+
+release: ## 插件发版: make release VERSION=0.1.1
+	@test -n "$(VERSION)" || (echo "用法: make release VERSION=0.1.1" >&2; exit 2)
+	@bash tools/release.sh "$(VERSION)"
+
+release-check: ## 检查插件双版本号是否一致
+	@bash tools/release.sh --check
 
 # ---- 清理 ----
 

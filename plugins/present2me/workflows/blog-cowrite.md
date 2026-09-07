@@ -5,8 +5,10 @@
 
 ## 前置
 
-- task-context 协议（`.agents/skills/task-context/SKILL.md`）。
-- lark-cli 已授权（`tools/status.sh` 确认；飞书操作用用户级 lark-doc 技能，`--as user`）。
+- 本剧本随 present2me 插件分发：技能在插件 `skills/`、脚本在插件 `tools/`
+  （present2me 仓库内对应根目录 `.agents/skills/`、`tools/` 软链）。
+- task-context 协议（task-context 技能）。
+- lark-cli 已授权（`<插件根>/tools/status.sh` 确认；飞书操作用用户级 lark-doc 技能，`--as user`）。
 
 ## 步骤
 

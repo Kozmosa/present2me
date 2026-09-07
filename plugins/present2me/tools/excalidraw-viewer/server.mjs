@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 // server.mjs — present2me Excalidraw 查看器本地服务
-// 静态服务仓库根目录（限本机回环）+ POST /api/save 把画板内容写回 .excalidraw 文件。
+// 静态服务指定根目录（限本机回环）+ POST /api/save 把画板内容写回 .excalidraw 文件。
+// 静态根由 P2M_SERVE_ROOT 指定（open.sh 传调用者 CWD）；缺省回退为本目录上两级，
+// 兼容旧的仓库根布局。查看器页面自身经 /viewer/ 前缀从本目录提供。
 // 用法: node server.mjs [port]
 import http from "node:http";
-import { readFile, writeFile, stat } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(HERE, "..", "..");
+const ROOT = process.env.P2M_SERVE_ROOT
+  ? path.resolve(process.env.P2M_SERVE_ROOT)
+  : path.resolve(HERE, "..", "..");
 const PORT = Number(process.argv[2] || process.env.PORT || 4173);
 const HOST = "127.0.0.1";
 
@@ -26,12 +30,12 @@ const MIME = {
   ".d2": "text/plain; charset=utf-8",
 };
 
-// 路径必须落在仓库根内，防目录穿越
-function safeResolve(rel) {
+// 路径必须落在指定 base 内，防目录穿越
+function safeResolve(base, rel) {
   const clean = String(rel).replace(/^\/+/, "");
   if (!clean || clean.includes("\0")) return null;
-  const p = path.resolve(ROOT, clean);
-  if (p !== ROOT && !p.startsWith(ROOT + path.sep)) return null;
+  const p = path.resolve(base, clean);
+  if (p !== base && !p.startsWith(base + path.sep)) return null;
   return p;
 }
 
@@ -44,7 +48,7 @@ const server = http.createServer(async (req, res) => {
     const u = new URL(req.url, `http://${HOST}`);
 
     if (req.method === "GET" && u.pathname === "/api/health") {
-      return send(200, JSON.stringify({ ok: true, port: PORT }));
+      return send(200, JSON.stringify({ ok: true, port: PORT, root: ROOT }));
     }
 
     if (req.method === "POST" && u.pathname === "/api/save") {
@@ -54,7 +58,7 @@ const server = http.createServer(async (req, res) => {
       if (!file || !data || !Array.isArray(data.elements)) {
         return send(400, JSON.stringify({ ok: false, error: "bad payload" }));
       }
-      const p = safeResolve(file);
+      const p = safeResolve(ROOT, file);
       if (!p || !p.endsWith(".excalidraw")) {
         return send(400, JSON.stringify({ ok: false, error: "bad path" }));
       }
@@ -66,10 +70,15 @@ const server = http.createServer(async (req, res) => {
       return send(405, JSON.stringify({ ok: false, error: "method not allowed" }));
     }
 
-    let p = safeResolve(decodeURIComponent(u.pathname));
+    // /viewer/ 前缀从查看器目录出静态资源，其余从静态根出
+    let base = ROOT;
+    let rel = decodeURIComponent(u.pathname);
+    if (rel === "/viewer" || rel.startsWith("/viewer/")) {
+      base = HERE;
+      rel = rel.slice("/viewer".length) || "/index.html";
+    }
+    let p = safeResolve(base, rel);
     if (!p) return send(403, JSON.stringify({ ok: false, error: "forbidden" }));
-    const st = await stat(p).catch(() => null);
-    if (st && st.isDirectory()) p = path.join(HERE, "index.html");
     const buf = await readFile(p).catch(() => null);
     if (!buf) return send(404, "not found", "text/plain");
     return send(200, buf, MIME[path.extname(p).toLowerCase()] || "application/octet-stream");

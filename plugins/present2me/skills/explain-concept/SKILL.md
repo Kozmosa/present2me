@@ -35,13 +35,13 @@ version: 0.1.0
 |---|---|
 | 活跃任务中 | `tasks/<活跃任务>/artifacts/` |
 | 无任务（随手问） | `scratch/`（不进 git） |
-| 用户明确要留存 | `knowledge/insights/<主题>.md`（追加，注明日期） |
+| 用户明确要留存 | `knowledge/insights/<主题>.md`（追加，注明日期；present2me 工作区） |
 
 ## 升级路径
 
 - 一个概念讲解演变成多轮学习（如精读论文）→ 建议转正式任务：
-  走 `../task-context/SKILL.md` 建任务文件夹，或参考 `workflows/study-paper.md`。
-- 讲解产物要变成博客 → `workflows/blog-cowrite.md`。
+  走 `../task-context/SKILL.md` 建任务文件夹，或参考插件目录 `workflows/study-paper.md`。
+- 讲解产物要变成博客 → `workflows/blog-cowrite.md`（插件目录；仓库内根目录为软链）。
 
 ## 质量自检（发给用户前）
 

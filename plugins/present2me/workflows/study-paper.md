@@ -5,8 +5,10 @@
 
 ## 前置
 
-- 遵循 task-context 技能（`.agents/skills/task-context/SKILL.md`）的文件夹协议。
-- 相关能力检查：`tools/status.sh`（如需推送飞书，确认 lark-cli 已授权）。
+- 本剧本随 present2me 插件分发：技能在插件 `skills/`、脚本在插件 `tools/`
+  （present2me 仓库内对应根目录 `.agents/skills/`、`tools/` 软链）。
+- 遵循 task-context 技能的文件夹协议。
+- 相关能力检查：`<插件根>/tools/status.sh`（如需推送飞书，确认 lark-cli 已授权）。
 
 ## 步骤
 
@@ -25,9 +27,9 @@
 ### 3. 精读与可视化讲解
 
 - 逐节精读，提取：问题定义 / 方法机制 / 实验设置 / 关键结果 / 局限。
-- **方法流程图**：用 viz-d2（`.agents/skills/viz-d2/`）画 pipeline，
+- **方法流程图**：用 viz-d2 技能画 pipeline，
   存 `artifacts/method-v1.d2`，渲染打开讲解。
-- **概念关系白板**：用 viz-excalidraw（`.agents/skills/viz-excalidraw/`）画核心概念图，
+- **概念关系白板**：用 viz-excalidraw 技能画核心概念图，
   存 `artifacts/concepts-v1.excalidraw`，用户可在画板上圈改。
 - 推测与论文原文区分标注（"实线=原文，虚线=我的理解"）。
 

@@ -24,10 +24,11 @@ metadata:
 2. 写 `.d2` 源文件。输出位置：
    - 有任务上下文 → `tasks/<活跃任务>/artifacts/<主题>-v<N>.d2`
    - 无任务上下文 → `scratch/<主题>-v<N>.d2`
-3. 渲染并打开：
+3. 渲染并打开（脚本在本技能所在插件的 `tools/` 下；present2me 仓库内根目录
+   `tools/render-d2.sh` 为软链，可直接用）：
    ```bash
-   tools/render-d2.sh <file.d2>        # 渲染 SVG 并用默认浏览器打开
-   tools/render-d2.sh -w <file.d2>     # 实时预览模式（改文件自动刷新）
+   <插件根>/tools/render-d2.sh <file.d2>     # 渲染 SVG 并用默认浏览器打开
+   <插件根>/tools/render-d2.sh -w <file.d2>  # 实时预览模式（改文件自动刷新）
    ```
 4. 根据用户反馈直接改 `.d2` 再渲染。**源文件即真相**，不要只改 SVG。
 5. 若图已定稿且用户需要，可推送飞书（走 lark-doc / lark-whiteboard）。
@@ -72,4 +73,5 @@ vars: {                           # 全局配置（推荐每个图都带）
 
 - `icon:` 引用远程 URL 需要联网，离线环境避免使用。
 - 图超过 ~25 个节点时先出骨架图给用户确认，再补细节。
-- d2 未安装时提示用户运行 `./setup.sh`，不要自行尝试其他安装方式。
+- d2 未安装时提示用户：`brew install d2`（present2me 仓库内可 `./setup.sh`；
+  插件用户可走 `/p2m-setup` 命令），不要自行尝试其他安装方式。
