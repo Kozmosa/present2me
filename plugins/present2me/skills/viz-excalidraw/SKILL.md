@@ -1,7 +1,7 @@
 ---
 name: viz-excalidraw
 description: 直接手写 Excalidraw JSON 生成手绘风画板/概念图/白板，并用本地查看器打开给用户。当用户说"画个白板""手绘风格""概念图""像 Excalidraw 那种"，或需要自由布局、讨论式草图、低正式感演示时，使用本技能。用户可在画板上继续修改并保存回文件，形成人机迭代闭环。
-version: 0.1.0
+version: 0.1.1
 metadata:
   requires:
     bins: [node]
@@ -60,4 +60,6 @@ metadata:
 
 - 查看器依赖构建产物 `viewer.js`。若缺失，提示用户在查看器目录
   `npm install && npm run build`（present2me 仓库内可 `./setup.sh`；插件用户走 `/p2m-setup`）。
+- 元素字段提示按查看器内置的 `@excalidraw/excalidraw@0.18.1` 类型核实（见
+  `references/excalidraw-json.md` 顶部说明）；画板行为以实际渲染为准。
 - `.excalidraw` 是纯 JSON，可直接读写、可 git 版本管理——**文件即真相**。

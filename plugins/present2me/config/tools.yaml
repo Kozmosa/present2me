@@ -62,3 +62,9 @@ tools:
     check: 'test -d "$HOME/.config/present2me/gdocs"'
     how: "GCP OAuth 桌面凭据（较重，按需开通）"
     doc: https://github.com/Kozmosa/present2me/blob/main/config/setup-docs/gdocs.md
+  - id: excalidraw-mcp
+    name: Excalidraw MCP（官方，挂账评估中）
+    category: viz
+    check: 'test -f "$HOME/.config/present2me/excalidraw-mcp/dist/index.js"'
+    how: "本地构建后挂到 MCP 客户端（remote 托管版见手册，注意外发副作用）"
+    doc: https://github.com/Kozmosa/present2me/blob/main/config/setup-docs/excalidraw-mcp.md

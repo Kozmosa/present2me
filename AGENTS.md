@@ -85,7 +85,8 @@
 ## 当前接入状态
 
 核心已通：lark-cli（飞书）、gh、D2、Excalidraw 查看器、mermaid。
-挂账（手册在 `config/setup-docs/`）：Anki、SiYuan、Notion、Flomo、Google Docs。
+挂账（手册在 `config/setup-docs/`）：Anki、SiYuan、Notion、Flomo、Google Docs、
+Excalidraw MCP（官方，评估中）。
 以 `bash tools/status.sh` 实时输出为准。
 
 ## 插件发布渠道（ZCode + Codex marketplace）
