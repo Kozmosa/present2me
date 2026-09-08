@@ -1,6 +1,6 @@
 {
   "name": "present2me",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Agent 讲解·演示·协作能力包：概念讲解编排（explain-concept）、D2 结构图、Excalidraw 白板、隔离任务上下文协议，以及论文精读 / 博客共写 / 即时讲解三大工作流命令。",
   "author": {
     "name": "Kozmosa",
