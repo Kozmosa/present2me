@@ -62,6 +62,6 @@ if d2 "$IN" "$OUT"; then
   echo "已渲染: $OUT"
   open "$OUT" 2>/dev/null || echo "（自动打开失败，请手动查看）"
 else
-  echo "渲染失败（PNG 需要额外渲染器时请改用 SVG）" >&2
+  echo "渲染失败：按报错行列号修改 .d2 源文件后重试" >&2
   exit 1
 fi

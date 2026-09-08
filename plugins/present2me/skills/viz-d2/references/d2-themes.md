@@ -6,16 +6,19 @@
 # 1. 写在文件里（推荐，随源文件走）
 vars: {d2-config: {theme-id: 4}}
 
-# 2. 暗色模式 + 手绘
-vars: {d2-config: {dark: true, sketch: true}}
+# 2. 手绘风
+vars: {d2-config: {sketch: true}}
 ```
 
 ```bash
 # 3. 命令行临时覆盖
-d2 --theme-id 200 in.d2 out.svg
-d2 --dark in.d2 out.svg
-d2 --sketch in.d2 out.svg
+d2 --theme 200 in.d2 out.svg      # 换主题（注意是 --theme，没有 --theme-id）
+d2 --dark-theme 5 in.d2 out.svg   # 浏览器暗色模式下用主题 5（源文件里写不了暗色）
+d2 --sketch in.d2 out.svg         # 手绘
 ```
+
+> v0.8.2 实测：`d2-config` 里**没有** `dark: true` 这个配置（编译报错），
+> 暗色只走 `--dark-theme` 命令行；`d2 themes` 可列出全部主题。
 
 ## 常用主题编号（经验值）
 
@@ -31,7 +34,7 @@ d2 --sketch in.d2 out.svg
 主题的最终效果以渲染为准。**快速试主题**：
 
 ```bash
-for t in 0 1 2 4 5 6 200 300; do d2 --theme-id $t 图.d2 theme-$t.svg; done
+for t in 0 1 2 4 5 6 200 300; do d2 --theme $t 图.d2 theme-$t.svg; done
 open theme-*.svg
 ```
 

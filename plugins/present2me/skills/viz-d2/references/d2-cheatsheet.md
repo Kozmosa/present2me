@@ -1,5 +1,10 @@
 # D2 语法速查
 
+> 分隔符规则：map 内的条目用**换行或分号**分隔，**逗号非法**。
+> 节点写法四种（v0.8.2 实测）：
+> `a: 裸标签` ／ `a: "引号标签"` ／ `a: 裸标签 {shape: x}` ／ `a: {label: "x"; shape: x}`
+> ⚠️ `"引号标签" {shape: x}`（引号串后直接跟属性）编译失败。
+
 ## 形状类型（shape: xxx）
 
 | 形状 | 值 | 典型用途 |
@@ -42,7 +47,8 @@ style.animated: true              # 连接线流动动画（仅连接线）
 ```d2
 a -> b: 标签
 a <-> b                            # 双向
-a -> b: {style.stroke-dash: 3}     # 虁线
+a -> b: {style.stroke-dash: 3}     # 虚线
+a -> b: 标签 {style.animated: true}          # 标签 + 属性同时写（合法）
 a -> b: {target-arrowhead: {shape: none}}    # 去掉箭头变成线
 a -> b: {source-arrowhead: {shape: diamond}} # 起点箭头
 ```
@@ -73,11 +79,16 @@ x.label: "第一行\\n第二行"          # 换行
   mobile: App
 }
 后端.服务A -> 前端.web             # 跨容器连接（用完整路径）
-b.near: a                         # 相对定位：b 挨着 a 放
+标题: {shape: text; near: top-center; label: "标题"}   # 绝对定位（不参与自动布局）
+# near 合法常量：top-left / top-center / top-right
+#               center-left / center-right
+#               bottom-left / bottom-center / bottom-right
+# v0.8.2 实测：dagre / elk 都只支持以上常量；
+# 早期的 b.near: a（相对某节点定位）已移除，报错，不要写
 对比板: {
   grid-columns: 2                 # 网格布局（也可 grid-rows）
-  方案一: {...}
-  方案二: {...}
+  方案一: {shape: rectangle}
+  方案二: {shape: rectangle}
 }
 ```
 
@@ -85,8 +96,8 @@ b.near: a                         # 相对定位：b 挨着 a 放
 
 ```d2
 classes: {
-  service: {style.fill: "#e8f4f8", shape: rectangle}
-  store: {shape: cylinder, style.fill: honeydew}
+  service: {style.fill: "#e8f4f8"; shape: rectangle}
+  store: {shape: cylinder; style.fill: honeydew}
 }
 svc1: {class: service}
 db1: {class: store}
@@ -107,16 +118,27 @@ users.id -> orgs.id
 ## 多页图：layers / scenarios / steps
 
 ```d2
-layers: {
-  总览: {...}
-  细节: {...}
+layers: {                         # 多页图：渲染时用 d2 --layer 选页
+  总览: {
+    a: x
+  }
+  细节: {
+    a: x
+    b: y
+  }
 }
 scenarios: {                      # 同一底图的不同变化
-  正常流程: {...}
-  异常流程: {...}
+  正常流程: {
+    a -> b
+  }
+  异常流程: {
+    a -> b: 重试
+  }
 }
 steps: {                          # 分步演示（CLI 可按 step 渲染）
-  1: {...}
+  1: {
+    a: x
+  }
 }
 ```
 

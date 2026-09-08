@@ -6,13 +6,13 @@
 
 ```d2
 direction: right
-vars: {d2-config: {layout-engine: elk, theme-id: 0}}
+vars: {d2-config: {layout-engine: elk; theme-id: 0}}
 
 开始: {shape: circle}
-判断: {shape: diamond, label: 条件满足？}
+判断: {shape: diamond; label: 条件满足？}
 处理A: 正常路径
-处理B: {label: 异常处理, style.fill: mistyrose}
-结束: {shape: circle, style.fill: honeydew}
+处理B: {label: 异常处理; style.fill: mistyrose}
+结束: {shape: circle; style.fill: honeydew}
 
 开始 -> 判断
 判断 -> 处理A: 是
@@ -41,7 +41,7 @@ seq: {
 
 ```d2
 direction: down
-vars: {d2-config: {layout-engine: elk, theme-id: 4}}
+vars: {d2-config: {layout-engine: elk; theme-id: 4}}
 
 客户端层: {
   web: Web 前端
@@ -54,7 +54,7 @@ vars: {d2-config: {layout-engine: elk, theme-id: 4}}
 }
 数据层: {
   主库: {shape: cylinder}
-  缓存: {shape: cylinder, style.fill: oldlace}
+  缓存: {shape: cylinder; style.fill: oldlace}
 }
 
 客户端层.web -> 服务层.网关
@@ -68,19 +68,31 @@ vars: {d2-config: {layout-engine: elk, theme-id: 4}}
 ## 4. 方案对比板
 
 ```d2
-vars: {d2-config: {layout-engine: elk, theme-id: 3}}
+vars: {d2-config: {layout-engine: elk; theme-id: 3}}
 
 对比: {
   grid-columns: 2
   方案A: {
     label: "方案 A：同步处理"
-    优点: |md + 简单\\n+ 一致性好|
-    缺点: |md - 延迟高\\n- 耦合|
+    优点: |md
+      + 简单
+      + 一致性好
+    |
+    缺点: |md
+      - 延迟高
+      - 耦合
+    |
   }
   方案B: {
     label: "方案 B：异步消息"
-    优点: |md + 高吞吐\\n+ 解耦|
-    缺点: |md - 最终一致\\n- 复杂|
+    优点: |md
+      + 高吞吐
+      + 解耦
+    |
+    缺点: |md
+      - 最终一致
+      - 复杂
+    |
   }
 }
 ```
@@ -93,7 +105,7 @@ direction: right
 系统: present2me 工作区 {
   style.multiple: true
 }
-飞书: {shape: cloud, label: 外部系统}
+飞书: {shape: cloud; label: 外部系统}
 用户 -> 系统: 讲解/委托
 系统 -> 飞书: 文档产出
 ```
@@ -104,28 +116,32 @@ direction: right
 
 ```d2
 direction: right
-vars: {d2-config: {theme-id: 6, sketch: true}}   # 手绘风更适合讲解
+vars: {d2-config: {theme-id: 6; sketch: true}}   # 手绘风更适合讲解
 
-核心概念: {shape: circle, style.fill: honeydew, style.font-size: 24}
+核心概念: {shape: circle; style.fill: honeydew; style.font-size: 24}
 要素1 -> 核心概念
 要素2 -> 核心概念
 核心概念 -> 已知概念: 类比
-误区: {shape: diamond, style.fill: mistyrose, label: 常见误解}
-误区 -|不是| 核心概念: {style.stroke-dash: 4, target-arrowhead: {shape: none}}
+误区: {shape: diamond; style.fill: mistyrose; label: 常见误解}
+误区 -> 核心概念: 不是 {style.stroke-dash: 4; target-arrowhead: {shape: none}}
 ```
 
-> 注意：`-|不是|` 这种写法部分版本不支持，稳妥写法是 `误区 -> 核心概念: 不是` + 虚线。
+> 想表达"不是/否定"关系：普通边 + 虚线 + 无箭头（如上）即可；
+> `-|不是|` 这类内联标签写法在 v0.8.2 上行为不稳，不要用了。
 
 ## 7. 状态机
 
 ```d2
 direction: right
-[*]: {shape: circle}
-active: 进行中
-paused: 暂停
-done: 已完成 {shape: doublecircle 不可用时用 style.multiple: true}
-[*] -> active: 开始
-active -> paused: 挂起
-paused -> active: 恢复
-active -> done: 归档
+开始: {shape: circle; style.fill: "#0d3b66"}    # 实心圆 = 起点
+进行中: 进行中
+暂停: 暂停
+完成: {shape: circle; style.multiple: true; style.fill: honeydew}   # 双圈 = 终点
+
+开始 -> 进行中: 开始
+进行中 -> 暂停: 挂起
+暂停 -> 进行中: 恢复
+进行中 -> 完成: 归档
 ```
+
+> d2 没有 PlantUML 的 `[*]` 语法：起点用实心圆，终点用 `style.multiple: true` 双圈。
