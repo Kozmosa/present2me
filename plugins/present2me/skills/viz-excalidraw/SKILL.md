@@ -1,7 +1,7 @@
 ---
 name: viz-excalidraw
 description: 直接手写 Excalidraw JSON 生成手绘风画板/概念图/白板，并用本地查看器打开给用户。当用户说"画个白板""手绘风格""概念图""像 Excalidraw 那种"，或需要自由布局、讨论式草图、低正式感演示时，使用本技能。用户可在画板上继续修改并保存回文件，形成人机迭代闭环。
-version: 0.1.1
+version: 0.2.0
 metadata:
   requires:
     bins: [node]
@@ -24,6 +24,11 @@ metadata:
    字段写错画板会空白或元素错位）。输出位置：
    - 有任务上下文 → `tasks/<活跃任务>/artifacts/<主题>-v<N>.excalidraw`
    - 无任务上下文 → `scratch/<主题>-v<N>.excalidraw`
+
+   写完立即机检（**硬错误必修，警告酌情**；规格蒸馏自 0.18.1 官方类型）：
+   ```bash
+   <插件根>/tools/validate-excalidraw.mjs <file.excalidraw>   # 退出码 1 = 有硬错误
+   ```
 3. 打开给用户（查看器在本技能所在插件的 `tools/excalidraw-viewer/` 下；
    present2me 仓库内根目录同名路径为软链，可直接用）：
    ```bash

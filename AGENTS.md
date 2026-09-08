@@ -18,7 +18,7 @@
 | `knowledge/` | 沉淀：style-pairs（风格语料）/ style-profile.md（风格档案）/ insights（gitignored 本地数据，档案模板内嵌于 blog-cowrite 剧本） |
 | `archive/` | 已完结任务（gitignored 本地数据） |
 | `scratch/` | 无任务上下文的临时讲解产物（gitignored） |
-| `tools/` | docs.sh（文档站，实体）+ status.sh / render-d2.sh / excalidraw-viewer（软链 → 插件 tools/）+ release.sh（发版） |
+| `tools/` | docs.sh（文档站，实体）+ status.sh / render-d2.sh / validate-excalidraw.mjs / excalidraw-viewer（软链 → 插件 tools/）+ release.sh（发版） |
 | `config/tools.yaml` | 软链 → 插件 config/tools.yaml：全部工具登记表 |
 | `config/setup-docs/` | 挂账工具接入手册（工作区面，不随插件分发） |
 | `demo/` | 能力演示样例 |

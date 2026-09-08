@@ -1,0 +1,1 @@
+../plugins/present2me/tools/validate-excalidraw.mjs

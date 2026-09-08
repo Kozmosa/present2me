@@ -1,0 +1,134 @@
+{
+  "$meta": {
+    "source": "@excalidraw/excalidraw@0.18.1 element/types.d.ts（查看器内置版本）",
+    "distilled": "2026-09-08",
+    "refresh": "查看器升级 excalidraw 时，对照 node_modules/@excalidraw/excalidraw/package.json 的 version 刷新本文件"
+  },
+
+  "enums": {
+    "elementType": ["rectangle", "ellipse", "diamond", "text", "arrow", "line", "freedraw", "image", "frame", "embeddable", "iframe"],
+    "fillStyle": ["hachure", "cross-hatch", "solid", "zigzag"],
+    "strokeStyle": ["solid", "dashed", "dotted"],
+    "arrowhead": ["arrow", "bar", "dot", "circle", "circle_outline", "triangle", "triangle_outline", "diamond", "diamond_outline", "crowfoot_one", "crowfoot_many", "crowfoot_one_or_many"],
+    "textAlign": ["left", "center", "right"],
+    "verticalAlign": ["top", "middle", "bottom"],
+    "roundnessType": [1, 2, 3],
+    "imageStatus": ["pending", "saved", "error"]
+  },
+
+  "bindableTypes": ["rectangle", "diamond", "ellipse", "text", "image", "iframe", "embeddable", "frame", "magicframe"],
+  "textContainerTypes": ["rectangle", "diamond", "ellipse", "arrow"],
+  "shapeTypes": ["rectangle", "ellipse", "diamond", "text", "freedraw", "image", "embeddable", "iframe"],
+  "linearTypes": ["arrow", "line"],
+
+  "elements": {
+    "base": {
+      "hardRequired": ["id", "type", "x", "y", "width", "height"],
+      "fields": {
+        "id": { "type": "string" },
+        "type": { "enum": "elementType" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "angle": { "type": "number", "default": 0 },
+        "strokeColor": { "type": "string", "default": "#1e1e1e" },
+        "backgroundColor": { "type": "string", "default": "transparent" },
+        "fillStyle": { "enum": "fillStyle", "default": "hachure" },
+        "strokeWidth": { "type": "number", "default": 2 },
+        "strokeStyle": { "enum": "strokeStyle", "default": "solid" },
+        "roughness": { "type": "number", "default": 1 },
+        "opacity": { "type": "number", "default": 100 },
+        "roundness": { "kind": "roundness", "default": null },
+        "seed": { "type": "number", "default": null, "defaultNote": "restore 会重新生成；手写建议自备且全文件唯一" },
+        "version": { "type": "number", "default": 1 },
+        "versionNonce": { "type": "number", "default": null },
+        "index": { "type": ["string", "null"], "default": null },
+        "isDeleted": { "type": "boolean", "default": false },
+        "groupIds": { "type": "array", "default": [] },
+        "frameId": { "type": ["string", "null"], "default": null },
+        "boundElements": { "kind": "boundElements", "default": null },
+        "updated": { "type": "number", "default": 0 },
+        "link": { "type": ["string", "null"], "default": null },
+        "locked": { "type": "boolean", "default": false },
+        "customData": { "type": "object", "optional": true }
+      }
+    },
+
+    "byType": {
+      "text": {
+        "hardRequired": ["text"],
+        "fields": {
+          "text": { "type": "string" },
+          "originalText": { "type": "string", "default": null, "defaultNote": "缺省时按 text 对待" },
+          "fontSize": { "type": "number", "default": 20 },
+          "fontFamily": { "type": "number", "default": 5, "defaultNote": "5=Excalifont(默认手写)；4 是历史空号" },
+          "textAlign": { "enum": "textAlign", "default": "left" },
+          "verticalAlign": { "enum": "verticalAlign", "default": "top" },
+          "containerId": { "type": ["string", "null"], "default": null },
+          "autoResize": { "type": "boolean", "default": true },
+          "lineHeight": { "type": "number", "default": 1.25 }
+        }
+      },
+
+      "arrow": {
+        "hardRequired": ["points"],
+        "fields": {
+          "points": { "kind": "pointList" },
+          "lastCommittedPoint": { "kind": "point", "default": null },
+          "startBinding": { "kind": "binding", "default": null },
+          "endBinding": { "kind": "binding", "default": null },
+          "startArrowhead": { "enum": "arrowhead", "nullable": true, "default": null },
+          "endArrowhead": { "enum": "arrowhead", "nullable": true, "default": "arrow" },
+          "elbowed": { "type": "boolean", "default": false },
+          "fixedSegments": { "type": "array", "optional": true, "note": "仅 elbowed: true 时有意义" }
+        }
+      },
+
+      "line": {
+        "hardRequired": ["points"],
+        "fields": {
+          "points": { "kind": "pointList" },
+          "lastCommittedPoint": { "kind": "point", "default": null },
+          "startBinding": { "kind": "binding", "default": null },
+          "endBinding": { "kind": "binding", "default": null },
+          "startArrowhead": { "enum": "arrowhead", "nullable": true, "default": null },
+          "endArrowhead": { "enum": "arrowhead", "nullable": true, "default": null }
+        }
+      },
+
+      "freedraw": {
+        "hardRequired": ["points"],
+        "fields": {
+          "points": { "kind": "pointList" },
+          "pressures": { "type": "array", "default": [] },
+          "simulatePressure": { "type": "boolean", "default": true },
+          "lastCommittedPoint": { "kind": "point", "default": null }
+        }
+      },
+
+      "image": {
+        "fields": {
+          "fileId": { "type": ["string", "null"], "default": null },
+          "status": { "enum": "imageStatus", "default": "saved" },
+          "scale": { "kind": "scalePair", "default": [1, 1] },
+          "crop": { "type": ["object", "null"], "default": null }
+        }
+      },
+
+      "frame": {
+        "fields": {
+          "name": { "type": ["string", "null"], "default": null }
+        }
+      }
+    }
+  },
+
+  "restoreDefaults": {
+    "说明": "以下字段缺省时 Excalidraw restore 的行为（来自 0.18.1 源码），校验器对缺省字段静默通过，只查「写了但写错」",
+    "index": null,
+    "autoResize": true,
+    "elbowed": "isElbowArrow(element) && element.elbowed，缺省即 false",
+    "pressures": "element.pressures ?? []"
+  }
+}

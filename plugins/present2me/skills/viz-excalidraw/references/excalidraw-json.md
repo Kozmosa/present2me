@@ -20,6 +20,10 @@
 查看器加载时会做 restore（补默认值），所以漏掉次要字段通常不致命，
 但 `id` / `seed` / `versionNonce` 必须自备且全文件唯一，`type` / 坐标 / 尺寸必须正确。
 
+写完后用 `<插件根>/tools/validate-excalidraw.mjs <file>` 机检：schema/枚举、
+id/seed 唯一性、binding 双向登记、包围盒重叠、文字截断都会自动查
+（校验规格蒸馏自 0.18.1 类型，与本文档同一份标准；`--json` 输出机器可读格式）。
+
 ## 通用字段（所有元素）
 
 ```json
