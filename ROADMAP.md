@@ -15,15 +15,15 @@
 
 ---
 
-## 现状快照（v0.2.0 · 2026-09-09）
+## 现状快照（v0.3.0 · 2026-09-09）
 
 | 维度 | 数量 | 明细 |
 |---|---|---|
-| 技能 skill | **4** | explain-concept · viz-d2 · viz-excalidraw · task-context |
+| 技能 skill | **5** | explain-concept · viz-d2 · viz-excalidraw · viz-mmd · task-context |
 | 命令 command | **4** | `/quick-explain` `/study-paper` `/blog-cowrite` `/p2m-setup` |
 | 工作流剧本 workflow | **3** | quick-explain · study-paper · blog-cowrite |
 | 工具登记 | **11** | 已通 5 · 挂账 6 |
-| MCP | **0 接入** | 登记评估中 1：excalidraw-mcp |
+| MCP | **0 接入** | 本项目不接入 MCP |
 
 复现命令（仓库根执行）：
 
@@ -99,14 +99,9 @@ bash tools/status.sh                            # 实时接入状态
 
 ## 未实现 / 挂账
 
-### MCP：0 接入，1 评估中
+### MCP：不接入
 
-| MCP | 用途 | 状态 | 入口 |
-|---|---|---|---|
-| excalidraw-mcp（官方） | 经 MCP 直接操作 Excalidraw | 🧪 挂账评估中 | `config/setup-docs/excalidraw-mcp.md` |
-
-> 说明：项目自身**不定义任何 MCP 服务器**，仓库内也无 MCP 配置文件；
-> 当前会话可用的 MCP（context7 等）来自宿主环境，不属于本项目能力。
+本项目暂不接入 Excalidraw MCP 或其他 MCP 服务。
 
 ### 知识沉淀出口：全部挂账 🧪
 
@@ -131,7 +126,7 @@ bash tools/status.sh                            # 实时接入状态
 
 | # | 问题 | 影响 | 建议 |
 |---|---|---|---|
-| 1 | mermaid 无专属技能，定位模糊 | 用户问"画个图"时选型可能漏掉 mermaid | 在 explain-concept 选型表明确"对话内联小图"边界 |
+| 1 | Mermaid 中文渲染容易出错 | 长文案、括号和手动换行会导致编译或排版问题 | 新增 `viz-mmd` skill，约束文案并要求渲染检查 |
 | 2 | 三个工作流剧本均未留下端到端跑通记录 | "已实现"缺少行为证据 | 各跑一遍并记入对应 `tasks/*/session-log.md` |
 
 ### 已修复
@@ -152,9 +147,9 @@ bash tools/status.sh                            # 实时接入状态
 | P1 | 端到端跑通一次 `blog-cowrite`，产出首对 style-pairs | 风格闭环是本项目差异化卖点，目前零语料 |
 | P1 | 接通至少一个知识出口（建议 SiYuan 或 Anki） | 目前"知识沉淀"只有目录没有管道 |
 | P1 | 为 study-paper / blog-cowrite 补端到端验证记录 | 把 🟡 转 ✅ 的依据 |
-| P2 | 对 excalidraw-mcp 出评估结论（接入或移出登记表） | 避免长期"评估中"悬空 |
+| P2 | 统一知识沉淀路由 | 目前只有工具登记，没有统一出口 |
 | P2 | 文档站 build 纳入发版前检查 | 避免 nav 指向失效 |
-| P2 | 明确 mermaid 的选型边界（或补技能） | 消除 🟡 |
+| P2 | 补 Mermaid 真实渲染样例 | 验证中文文案约束在常见渲染器中有效 |
 
 > 原 P0「修 `demo/hello.excalidraw` 校验错误」已于 2026-09-09 完成，见「已修复」。
 
