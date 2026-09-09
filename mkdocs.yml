@@ -25,6 +25,7 @@ nav:
   - 工作流详解: workflows.md
   - 工具与凭据: tools.md
   - 常见问题: faq.md
+  - 功能路线图: roadmap.md
   - 工作流剧本:
       - 论文精读: workflows/study-paper.md
       - 博客共写: workflows/blog-cowrite.md
