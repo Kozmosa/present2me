@@ -14,6 +14,7 @@ while [ -L "$SELF" ]; do
   case "$SELF" in /*) ;; *) SELF="$DIR/$SELF";; esac
 done
 PLUGIN_ROOT="$(cd -P "$(dirname "$SELF")/.." && pwd)"
+PROJECT_ROOT="$(cd "$PLUGIN_ROOT/../.." && pwd)"
 WATCH=0
 FORMAT=svg
 
@@ -37,8 +38,8 @@ if [[ ! -f "$IN" ]]; then
 fi
 IN="$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")"
 
-if command -v pixi >/dev/null 2>&1 && [[ -f pixi.toml || -f ../pixi.toml ]]; then
-  D2_CMD=(pixi run d2)
+if command -v pixi >/dev/null 2>&1 && [[ -f "$PROJECT_ROOT/pixi.toml" ]]; then
+  D2_CMD=(pixi run --manifest-path "$PROJECT_ROOT/pixi.toml" d2)
 elif command -v d2 >/dev/null 2>&1; then
   D2_CMD=(d2)
 else

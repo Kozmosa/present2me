@@ -6,7 +6,7 @@
 ## 快速开始
 
 ```bash
-./setup.sh          # 一次性：装 d2、构建 Excalidraw 查看器、校验各工具授权
+./setup.sh          # 一次性：用 pixi 准备工具链、构建查看器、校验各工具授权
 bash tools/status.sh  # 随时查看所有工具接入状态
 ```
 
@@ -42,10 +42,10 @@ codex plugin marketplace add Kozmosa/present2me
 codex plugin add present2me@kozmosa-plugins
 ```
 
-装完得到 4 个技能（explain-concept / viz-d2 / viz-excalidraw / task-context）与
+装完得到 5 个技能（explain-concept / viz-d2 / viz-excalidraw / viz-mmd / task-context）与
 4 个命令（`/quick-explain` `/study-paper` `/blog-cowrite` `/p2m-setup`；Codex 端
 命令以迁移技能 `source-command-*` 形式生效），先跑一次 `/p2m-setup` 做依赖预检
-（d2、Excalidraw 查看器构建）。个人数据（knowledge/、tasks/）不随插件分发，
+（pixi 工具链、D2、Mermaid CLI、Excalidraw 查看器构建）。个人数据（knowledge/、tasks/）不随插件分发，
 留在各自工作区。
 
 发版（维护者）：`make release VERSION=x.y.z` —— 同步 `plugin.json` 与
@@ -92,6 +92,6 @@ archive/ scratch/ demo/
 - **已通**：飞书（lark-cli）、GitHub（gh）、D2、Excalidraw 本地查看器、mermaid
 - **挂账**（接入手册就绪，随时开通）：Anki、思源 SiYuan、Notion、Flomo、Google Docs
   → 见 `config/setup-docs/`，登记表 `config/tools.yaml`
-- **MCP**：当前 0 个接入；excalidraw-mcp 登记评估中
+- **MCP**：当前 0 个接入；项目暂不接入 MCP
 
 逐项状态与优先级见 [ROADMAP.md](ROADMAP.md)。

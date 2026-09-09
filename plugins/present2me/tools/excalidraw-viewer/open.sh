@@ -7,6 +7,15 @@ set -euo pipefail
 
 # cd -P 解析软链，定位查看器真实目录
 HERE="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PLUGIN_ROOT="$(cd "$HERE/.." && pwd)"
+PROJECT_ROOT="$(cd "$PLUGIN_ROOT/../.." && pwd)"
+if command -v pixi >/dev/null 2>&1 && [[ -f "$PROJECT_ROOT/pixi.toml" ]]; then
+  NODE_CMD=(pixi run --manifest-path "$PROJECT_ROOT/pixi.toml" node)
+  PYTHON_CMD=(pixi run --manifest-path "$PROJECT_ROOT/pixi.toml" python)
+else
+  NODE_CMD=(node)
+  PYTHON_CMD=(python3)
+fi
 SERVE_ROOT="${P2M_SERVE_ROOT:-$PWD}"
 [[ -d "$SERVE_ROOT" ]] || { echo "服务根目录不存在: $SERVE_ROOT" >&2; exit 1; }
 SERVE_ROOT="$(cd -P "$SERVE_ROOT" && pwd)"
@@ -50,7 +59,7 @@ if [[ -f "$PORT_FILE" ]] && healthy "$(cat "$PORT_FILE")"; then
 else
   for CAND in 4173 4174 4175 4176 4180 4190; do
     if healthy "$CAND"; then PORT="$CAND"; break; fi
-    P2M_SERVE_ROOT="$SERVE_ROOT" nohup node "$HERE/server.mjs" "$CAND" >>"$HERE/.viewer.log" 2>&1 &
+    P2M_SERVE_ROOT="$SERVE_ROOT" nohup "${NODE_CMD[@]}" "$HERE/server.mjs" "$CAND" >>"$HERE/.viewer.log" 2>&1 &
     echo $! >"$PID_FILE"; echo "$CAND" >"$PORT_FILE"
     for _ in $(seq 1 40); do healthy "$CAND" && break; sleep 0.25; done
     if healthy "$CAND"; then PORT="$CAND"; break; fi
@@ -59,7 +68,7 @@ fi
 [[ -n "$PORT" ]] || { echo "服务启动失败，详见 $HERE/.viewer.log" >&2; exit 1; }
 
 REL="${FILE#"$SERVE_ROOT/"}"
-ENC=$(python3 -c 'import sys,urllib.parse; print(urllib.parse.quote(sys.argv[1]))' "$REL")
+ENC=$("${PYTHON_CMD[@]}" -c 'import sys,urllib.parse; print(urllib.parse.quote(sys.argv[1]))' "$REL")
 URL="http://127.0.0.1:$PORT$VIEWER_PATH?file=$ENC"
 open "$URL"
 echo "已打开: $URL"
