@@ -85,7 +85,7 @@
 ## 当前接入状态
 
 核心已通：lark-cli（飞书）、gh、D2、Excalidraw 查看器、mermaid。
-挂账（手册在 `config/setup-docs/`）：Anki、SiYuan、Notion、Flomo、Google Docs、
+挂账（手册在 `config/setup-docs/`）：Anki、SiYuan、Notion、Flomo、Google Docs。
 
 以 `bash tools/status.sh` 实时输出为准。
 
