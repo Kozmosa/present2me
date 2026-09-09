@@ -6,7 +6,7 @@ DEFAULT_GOAL := help
 
 DATE := $(shell date +%F)
 
-.PHONY: help setup status docs docs-build docs-open \
+.PHONY: help setup status check docs docs-build docs-open \
         spec board board-stop d2 d2-watch demo task release release-check clean
 
 help: ## 显示本帮助
@@ -19,6 +19,14 @@ setup: ## 一次性环境搭建（依赖 + 查看器构建 + 工具体检）
 
 status: ## 工具授权状态总览（等价 ./setup.sh --check）
 	@bash tools/status.sh
+
+check: ## 插件级静态检查与 demo 构建校验
+	@node --check plugins/present2me/tools/build-excalidraw.mjs
+	@node --check plugins/present2me/tools/validate-excalidraw.mjs
+	@node --check plugins/present2me/tools/fix-excalidraw-text.mjs
+	@node tools/build-excalidraw.mjs demo/hello.spec.json /tmp/present2me-hello.excalidraw
+	@node tools/validate-excalidraw.mjs /tmp/present2me-hello.excalidraw
+	@bash tools/release.sh --check
 
 # ---- 文档站（MkDocs via uvx，仓库零污染） ----
 
