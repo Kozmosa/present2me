@@ -11,8 +11,8 @@ uv = ">=0.6"
 d2 = ">=0.6"
 
 [tasks]
-setup = "npm install --prefix .pixi-tools --no-fund --no-audit @mermaid-js/mermaid-cli"
-mmdc = "npx --prefix .pixi-tools mmdc"
+setup = "npm install --prefix .pixi-tools --no-fund --no-audit --package-lock=false @mermaid-js/mermaid-cli puppeteer && npm exec --prefix .pixi-tools -- puppeteer browsers install chrome-headless-shell"
+mmdc = "npm exec --prefix .pixi-tools --package=@mermaid-js/mermaid-cli -- mmdc"
 
 [pypi-dependencies]
 # Python tooling can be added here without touching the system interpreter.

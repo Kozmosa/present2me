@@ -1,5 +1,7 @@
 # 依赖与构建产物
 node_modules/
+.pixi/
+.pixi-tools/
 site/
 plugins/present2me/tools/excalidraw-viewer/dist/
 plugins/present2me/tools/excalidraw-viewer/viewer.js

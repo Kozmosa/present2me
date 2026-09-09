@@ -57,7 +57,7 @@ bash tools/status.sh                            # 实时接入状态
 | Excalidraw 本地查看器 + 保存回写 | `tools/excalidraw-viewer/`（viewer.js 8.4 MB） | ✅ | 实跑：`/api/health` 正常、`/viewer/index.html` 200、`.excalidraw` 200 |
 | Excalidraw JSON 校验器 | `tools/validate-excalidraw.mjs` | ✅ | 实跑；`demo/hello.excalidraw` 已通过（见「已修复」）；含容器内文字垂直居中检查 |
 | Excalidraw 文字位置修正器 | `tools/fix-excalidraw-text.mjs` | ✅ | 实跑：`--dry-run` / 修正 / 幂等三态验证，旧画板修正后校验通过 |
-| Mermaid 中文友好图 | `skills/viz-mmd` v0.1.0 + pixi `mmdc` | 🟡 | skill 已实现；真实渲染样例仍待补充 |
+| Mermaid 中文友好图 | `skills/viz-mmd` v0.1.0 + pixi `mmdc` | ✅ | `demo/hello-mmd.mmd` 已通过 pixi 环境实际渲染为 SVG |
 | 飞书白板 | 用户级 `lark-whiteboard` 技能 | 🧪 | 非本项目自有能力，按需借用 |
 
 ### 3. 任务上下文层 ✅
@@ -149,7 +149,7 @@ bash tools/status.sh                            # 实时接入状态
 | P1 | 为 study-paper / blog-cowrite 补端到端验证记录 | 把 🟡 转 ✅ 的依据 |
 | P2 | 统一知识沉淀路由 | 目前只有工具登记，没有统一出口 |
 | P2 | 文档站 build 纳入发版前检查 | 避免 nav 指向失效 |
-| P2 | 补 Mermaid 真实渲染样例 | 验证中文文案约束在常见渲染器中有效 |
+| P2 | 补 Mermaid 真实渲染样例 | 已完成：demo 已通过 pixi 环境实际渲染 |
 
 > 原 P0「修 `demo/hello.excalidraw` 校验错误」已于 2026-09-09 完成，见「已修复」。
 
