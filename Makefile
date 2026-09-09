@@ -21,9 +21,9 @@ status: ## 工具授权状态总览（等价 ./setup.sh --check）
 	@bash tools/status.sh
 
 check: ## 插件级静态检查与 demo 构建校验
-	@node --check plugins/present2me/tools/build-excalidraw.mjs
-	@node --check plugins/present2me/tools/validate-excalidraw.mjs
-	@node --check plugins/present2me/tools/fix-excalidraw-text.mjs
+	@pixi run node --check plugins/present2me/tools/build-excalidraw.mjs
+	@pixi run node --check plugins/present2me/tools/validate-excalidraw.mjs
+	@pixi run node --check plugins/present2me/tools/fix-excalidraw-text.mjs
 	@node tools/build-excalidraw.mjs demo/hello.spec.json /tmp/present2me-hello.excalidraw
 	@node tools/validate-excalidraw.mjs /tmp/present2me-hello.excalidraw
 	@bash tools/release.sh --check

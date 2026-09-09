@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # present2me 一次性 Setup
-# 做四件事：装基础依赖(d2/mmdc) → 构建 Excalidraw 查看器 → 确保 Claude 软链 → 全工具状态体检
+# 使用 pixi 管理 Node/Python/D2，并在项目目录内安装 Mermaid CLI
 # 用法: ./setup.sh           交互确认安装
 #       ./setup.sh --check   只跑状态体检（等价 bash tools/status.sh）
 set -euo pipefail
@@ -14,43 +14,17 @@ bad() { printf '  ❌ %s\n' "$*"; }
 
 if [[ "${1:-}" == "--check" ]]; then exec bash tools/status.sh; fi
 
-say "1/4 基础依赖"
-for cmd in git node npm curl; do
-  command -v "$cmd" >/dev/null 2>&1 && ok "$cmd 已安装" || { bad "$cmd 缺失（请先安装）"; exit 1; }
-done
-if command -v d2 >/dev/null 2>&1; then
-  ok "d2 $(d2 --version 2>/dev/null | head -1)"
-else
-  if command -v brew >/dev/null 2>&1; then
-    printf '  d2 未安装，将执行: brew install d2\n'
-    read -r -p '  继续？[Y/n] ' ans </dev/tty
-    if [[ "${ans:-Y}" =~ ^[Yy]?$ ]]; then
-      brew install d2 && ok "d2 安装完成" || bad "brew install d2 失败，可手动执行"
-    else
-      bad "跳过 d2（D2 绘图将不可用）"
-    fi
-  else
-    bad "无 brew，请手动安装 d2: https://d2lang.com/tour/install"
-  fi
-fi
-
-if command -v mmdc >/dev/null 2>&1; then
-  ok "mermaid $(mmdc --version 2>/dev/null | head -1)"
-else
-  printf '  mmdc 未安装，Mermaid 中文图渲染将不可用。建议执行: npm install -g @mermaid-js/mermaid-cli\n'
-  read -r -p '  现在安装 mmdc？[y/N] ' ans </dev/tty
-  if [[ "${ans:-N}" =~ ^[Yy]$ ]]; then
-    npm install -g @mermaid-js/mermaid-cli && ok "mmdc 安装完成" || bad "mmdc 安装失败，可稍后手动执行 npm install -g @mermaid-js/mermaid-cli"
-  else
-    bad "跳过 mmdc（Mermaid 图仍可作为代码块输出，但无法本地渲染检查）"
-  fi
-fi
+say "1/4 pixi 工具链"
+command -v pixi >/dev/null 2>&1 || { bad "pixi 缺失，请先安装: https://pixi.sh"; exit 1; }
+pixi install
+pixi run setup
+ok "Node/Python/uv/D2 与 Mermaid CLI 均安装在项目环境"
 
 say "2/4 构建 Excalidraw 查看器"
 (
   cd tools/excalidraw-viewer
-  if [[ ! -d node_modules ]]; then npm install --no-fund --no-audit; else ok "node_modules 已存在"; fi
-  npm run build
+  if [[ ! -d node_modules ]]; then pixi run npm install --no-fund --no-audit; else ok "node_modules 已存在"; fi
+  pixi run npm run build
 )
 [[ -f tools/excalidraw-viewer/viewer.js ]] && ok "viewer.js 构建成功" || { bad "构建失败"; exit 1; }
 

@@ -5,7 +5,8 @@
 macOS（脚本按 macOS 编写，Linux 需自行微调）+ 以下命令可用：
 `git` `node` `npm` `curl`（缺什么先装什么，建议用 Homebrew）。
 
-可选但推荐：`brew`（用于自动安装 d2）、`lark-cli`（飞书，已授权则文档闭环全通）、`gh`（GitHub）。
+必需：`pixi`（统一管理 Node、Python、uv、D2 和 Mermaid CLI；不会污染全局环境）。
+可选：`lark-cli`（飞书，已授权则文档闭环全通）、`gh`（GitHub）。
 
 ## 一次性 Setup
 
