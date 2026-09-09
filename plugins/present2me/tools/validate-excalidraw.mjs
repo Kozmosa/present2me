@@ -223,6 +223,23 @@ for (const el of live) {
   }
 }
 
+// 容器内文字垂直居中：渲染器按文字元素自身的 y 落笔，不会替你居中
+// （双击进入编辑再退出会被 Excalidraw 重算修正——手写 JSON 最常见的"位置奇怪"错因）
+for (const el of live) {
+  if (el.type !== "text" || !isStr(el.containerId) || el.verticalAlign !== "middle") continue;
+  const c = elements.find(e => e?.id === el.containerId);
+  if (!c || !isNum(c.y) || !isNum(c.height) || !isNum(el.y) || !isNum(el.fontSize)) continue;
+  const lines = String(el.text ?? "").split("\n").length;
+  const th = lines * el.fontSize * (isNum(el.lineHeight) ? el.lineHeight : 1.25);
+  const expectedY = c.y + (c.height - th) / 2;
+  const dy = el.y - expectedY;
+  if (Math.abs(dy) > 2) {
+    warn(el.id, "W_TEXT_VCENTER",
+      `容器内文字垂直未居中：y=${el.y}，按 ${lines} 行×${el.fontSize}px 行高应为 ${Number(expectedY.toFixed(1))}` +
+      `（差 ${dy > 0 ? "+" : ""}${dy.toFixed(1)}px）。渲染器按文字自身 y 落笔，不会自动居中。`);
+  }
+}
+
 // 几何：负坐标（线性元素豁免：其 x/y 是起点，points 可任意方向）
 for (const el of live) {
   if (spec.shapeTypes.includes(el.type) && (isNum(el.x) && el.x < 0 || isNum(el.y) && el.y < 0)) {

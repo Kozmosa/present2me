@@ -1,6 +1,7 @@
 # Excalidraw 配方
 
-以下为可直接改用的元素组合示意（JSON 片段省略通用字段，字段全集见 excalidraw-json.md）。
+以下为可直接改用的布局示意（用 spec 的 `nodes`/`edges` 表达，见 SKILL.md 标准流程；
+下面的坐标只是摆位参考，builder 会补齐其余几何。字段全集见 excalidraw-json.md）。
 
 ## 1. 中心辐射概念图
 

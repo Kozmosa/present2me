@@ -7,7 +7,7 @@ DEFAULT_GOAL := help
 DATE := $(shell date +%F)
 
 .PHONY: help setup status docs docs-build docs-open \
-        board board-stop d2 d2-watch demo task release release-check clean
+        spec board board-stop d2 d2-watch demo task release release-check clean
 
 help: ## 显示本帮助
 	@echo "present2me 常用目标："
@@ -32,6 +32,10 @@ docs-open: ## 构建并打开 site/index.html
 	@bash tools/docs.sh open
 
 # ---- 可视化 ----
+
+spec: ## 从语义骨架构建画板: make spec FILE=demo/hello.spec.json OUT=demo/hello.excalidraw
+	@test -n "$(FILE)" || (echo "用法: make spec FILE=<spec.json> OUT=<out.excalidraw>"; exit 2)
+	@node tools/build-excalidraw.mjs "$(FILE)" "$(OUT)"
 
 board: ## 在本地查看器打开画板: make board FILE=path/to/x.excalidraw
 	@test -n "$(FILE)" || (echo "用法: make board FILE=<文件.excalidraw>"; exit 2)

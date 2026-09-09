@@ -1,0 +1,17 @@
+{
+  "title": "present2me 概念图（手绘白板 Demo）",
+  "footer": "在画板上随便改，⌘S 保存 —— Agent 会读回你的修改继续迭代",
+  "nodes": [
+    { "id": "sat-task", "label": "任务隔离\ntasks/ 文件夹", "color": "blue", "x": 60, "y": 220, "width": 220, "height": 80 },
+    { "id": "sat-viz", "label": "可视化演示\nD2 + Excalidraw", "color": "blue", "x": 960, "y": 220, "width": 220, "height": 80 },
+    { "id": "core", "label": "Agent 讲解与协作", "shape": "ellipse", "color": "yellow", "x": 470, "y": 400, "width": 300, "height": 120, "fontSize": 26 },
+    { "id": "sat-doc", "label": "文档产出\n飞书 (lark-cli)", "color": "green", "x": 60, "y": 660, "width": 220, "height": 80 },
+    { "id": "sat-style", "label": "风格沉淀\nbefore / after", "color": "green", "x": 960, "y": 660, "width": 220, "height": 80 }
+  ],
+  "edges": [
+    { "from": "sat-task", "to": "core" },
+    { "from": "sat-viz", "to": "core" },
+    { "from": "core", "to": "sat-doc" },
+    { "from": "core", "to": "sat-style" }
+  ]
+}

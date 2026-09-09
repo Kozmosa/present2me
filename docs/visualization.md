@@ -42,10 +42,18 @@ bash tools/render-d2.sh --png 图.d2                          # 输出 PNG（失
 
 ## 用 Excalidraw 画板
 
+Agent 出图分两步：先写**语义骨架** `*.spec.json`（每个节点写什么字、什么形状/颜色、
+大致摆在哪、谁连谁），再一条命令构建出 `.excalidraw`——坐标、文字居中、箭头绑定
+都由工具算，Agent 不手算：
+
 ```bash
-bash tools/excalidraw-viewer/open.sh demo/hello.excalidraw   # 也接受仓库根相对路径
-bash tools/excalidraw-viewer/open.sh --stop                  # 停掉后台查看器服务
+bash tools/build-excalidraw.mjs demo/hello.spec.json demo/hello.excalidraw   # 构建
+bash tools/excalidraw-viewer/open.sh demo/hello.excalidraw                   # 打开
+bash tools/excalidraw-viewer/open.sh --stop                                  # 停掉后台服务
 ```
+
+同一份 spec 反复构建结果一致（可 git diff）；骨架字段说明见
+`.agents/skills/viz-excalidraw/SKILL.md`。骨架样例：`demo/hello.spec.json`。
 
 打开后是一个**完整可编辑的 Excalidraw 画板**：
 

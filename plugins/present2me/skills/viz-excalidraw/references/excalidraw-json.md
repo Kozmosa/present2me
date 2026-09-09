@@ -21,8 +21,9 @@
 但 `id` / `seed` / `versionNonce` 必须自备且全文件唯一，`type` / 坐标 / 尺寸必须正确。
 
 写完后用 `<插件根>/tools/validate-excalidraw.mjs <file>` 机检：schema/枚举、
-id/seed 唯一性、binding 双向登记、包围盒重叠、文字截断都会自动查
+id/seed 唯一性、binding 双向登记、包围盒重叠、文字截断、容器内文字垂直居中都会自动查
 （校验规格蒸馏自 0.18.1 类型，与本文档同一份标准；`--json` 输出机器可读格式）。
+修旧的画板（文字贴容器顶）：`<插件根>/tools/fix-excalidraw-text.mjs <file>`（`--dry-run` 先看）。
 
 ## 通用字段（所有元素）
 
@@ -62,7 +63,7 @@ id/seed 唯一性、binding 双向登记、包围盒重叠、文字截断都会�
 ```json
 {
   "type": "text",
-  "x": 130, "y": 95,            // 漂浮文字的左上角; 容器内文字由渲染器对齐, 坐标可近似给容器中心
+  "x": 130, "y": 95,            // 漂浮文字的左上角; 容器内文字按下方「容器内文字几何」算
   "text": "核心概念",
   "originalText": "核心概念",    // 必须与 text 一致
   "fontSize": 20,               // 标题 28~36, 正文 16~20
@@ -79,7 +80,24 @@ id/seed 唯一性、binding 双向登记、包围盒重叠、文字截断都会�
 ```
 
 宽高：`width ≈ 字符数 × fontSize × 0.6`（中文按 1.0 估），`height ≈ 行数 × fontSize × lineHeight`。
-估算偏大比偏小安全。
+估算偏大比偏小安全——**偏小会被查看器按包围盒裁切，开头或结尾可能整字消失**（实测：
+标题实测宽 ~576 而 `width` 写了 520，首字母 `p` 完全不渲染）。拿不准就写宽 20%。
+
+**容器内文字几何（手写必读）**：渲染器按文字元素自身的 `x`/`y` 落笔，**不会**替你垂直居中——
+`verticalAlign: "middle"` 只影响文字块内部的多行分布。要让文字落在容器正中，必须自己算：
+
+```js
+const lines = text.split("\n").length;
+const h = lines * fontSize * lineHeight;             // lineHeight 默认 1.25
+text.width  = container.width;                       // 宽度给容器宽，水平靠 textAlign: "center" 居中
+text.height = h;
+text.x = container.x;
+text.y = container.y + (container.height - h) / 2;   // 垂直居中全靠这一行
+```
+
+实测（0.18.1 查看器）：`height` 若误填成容器高度（例如 120），单行文字会贴到容器顶部；
+按上式填则文字中心与容器中心偏差 ≤ 3px。旧画板已经写错的，用
+`<插件根>/tools/fix-excalidraw-text.mjs <file>` 一次性批量修（不必逐个双击进编辑再退出）。
 
 ### rectangle / ellipse / diamond
 
@@ -120,7 +138,9 @@ id/seed 唯一性、binding 双向登记、包围盒重叠、文字截断都会�
 1. **id / seed 重复** → 元素互相覆盖或渲染异常。生成时用自增编号拼语义前缀。
 2. **改元素不 updated** → 多数情况无碍，但养成每次修改更新时间戳的习惯。
 3. **箭头 points 是相对坐标**（相对箭头自身 x/y），不是画布绝对坐标。
-4. **容器内文字**必须同时：text 元素设 `containerId`，容器 boundElements 里登记该 text。
+4. **容器内文字**必须同时：text 元素设 `containerId`，容器 boundElements 里登记该 text；
+   几何还要按上面「容器内文字几何」自己算，否则文字贴容器顶
+   （校验器报 `W_TEXT_VCENTER`；旧文件批量修用 `tools/fix-excalidraw-text.mjs`）。
 5. **version**：文件级 `"version": 2` 是当前格式；元素级 version 从 1 起随便，改一次 +1。
 6. 负数坐标合法，但尽量从 (100,100) 起排布，给画布留边。
 7. 图片元素（type: image）需要 files 映射，一期不使用。
