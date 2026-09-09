@@ -2,10 +2,9 @@
 
 ## 环境要求
 
-macOS（脚本按 macOS 编写，Linux 需自行微调）+ 以下命令可用：
-`git` `node` `npm` `curl`（缺什么先装什么，建议用 Homebrew）。
+macOS / Linux / Windows + `pixi`。pixi 负责项目内的 Node、Python、uv、D2 和 Mermaid CLI，不污染全局环境。
 
-必需：`pixi`（统一管理 Node、Python、uv、D2 和 Mermaid CLI；不会污染全局环境）。
+可选：`git`、`curl`（状态检查和仓库操作使用），`lark-cli`、`gh`。
 可选：`lark-cli`（飞书，已授权则文档闭环全通）、`gh`（GitHub）。
 
 ## 一次性 Setup
@@ -17,7 +16,7 @@ cd present2me
 
 setup 会依次做四件事，全部幂等（重复跑无害）：
 
-1. **基础依赖**：检查 git/node/npm/curl；`d2` 缺失时询问后 `brew install d2`，`mmdc` 缺失时询问后安装 Mermaid CLI。
+1. **工具链**：执行 `pixi install`，并在项目环境内安装 Mermaid CLI。
 2. **构建 Excalidraw 查看器**：`tools/excalidraw-viewer/` 下 `npm install` + esbuild 打包出 `viewer.js`。
 3. **Agent 目录适配**：确保 `.claude/skills → ../.agents/skills` 软链存在（供 Claude Code）。
 4. **工具授权体检**：跑 `tools/status.sh`，输出全工具状态表。
@@ -28,7 +27,7 @@ setup 会依次做四件事，全部幂等（重复跑无害）：
 
 ```bash
 bash tools/status.sh
-# 期望：lark-cli / gh / d2 / mermaid / excalidraw-viewer 五项 ✅
+# 期望：pixi 环境中的 d2 / mermaid / excalidraw-viewer 可用；lark-cli / gh 按需授权
 # anki / siyuan / notion / flomo / gdocs 显示 ❌ 属正常（挂账，见 docs/tools.md）
 ```
 

@@ -22,7 +22,7 @@
 | 技能 skill | **5** | explain-concept · viz-d2 · viz-excalidraw · viz-mmd · task-context |
 | 命令 command | **4** | `/quick-explain` `/study-paper` `/blog-cowrite` `/p2m-setup` |
 | 工作流剧本 workflow | **3** | quick-explain · study-paper · blog-cowrite |
-| 工具登记 | **11** | 已通 5 · 挂账 6 |
+| 工具登记 | **10** | 已通 5 · 挂账 5 |
 | MCP | **0 接入** | 本项目不接入 MCP |
 
 复现命令（仓库根执行）：
@@ -57,7 +57,7 @@ bash tools/status.sh                            # 实时接入状态
 | Excalidraw 本地查看器 + 保存回写 | `tools/excalidraw-viewer/`（viewer.js 8.4 MB） | ✅ | 实跑：`/api/health` 正常、`/viewer/index.html` 200、`.excalidraw` 200 |
 | Excalidraw JSON 校验器 | `tools/validate-excalidraw.mjs` | ✅ | 实跑；`demo/hello.excalidraw` 已通过（见「已修复」）；含容器内文字垂直居中检查 |
 | Excalidraw 文字位置修正器 | `tools/fix-excalidraw-text.mjs` | ✅ | 实跑：`--dry-run` / 修正 / 幂等三态验证，旧画板修正后校验通过 |
-| mermaid 对话内小图 | 全局 `mmdc` v11.15.0 | 🟡 | CLI 已通；无专属技能，仅约定在回复里用代码块 |
+| Mermaid 中文友好图 | `skills/viz-mmd` v0.1.0 + pixi `mmdc` | 🟡 | skill 已实现；真实渲染样例仍待补充 |
 | 飞书白板 | 用户级 `lark-whiteboard` 技能 | 🧪 | 非本项目自有能力，按需借用 |
 
 ### 3. 任务上下文层 ✅
@@ -85,7 +85,7 @@ bash tools/status.sh                            # 实时接入状态
 | 一次性环境搭建 | `setup.sh` / `make setup` | 🟡 | 脚本就位，本次未从头实跑 |
 | 文档站（MkDocs Material） | `tools/docs.sh` + `mkdocs.yml` | 🟡 | uvx v0.11.2 就位；本次未 build/serve |
 | 插件双市场发版 | `tools/release.sh` / `make release` | 🟡 | 脚本就位，本次未实跑 |
-| ZCode + Codex 双市场分发 | `marketplace.json` + `.agents/plugins/marketplace.json` | ✅ | v0.2.0 已发版（tag `fa8e1a0`） |
+| ZCode + Codex 双市场分发 | `marketplace.json` + `.agents/plugins/marketplace.json` | ✅ | v0.3.0 已发版（tag `v0.3.0`） |
 
 ### 6. 已接通的外部工具 ✅
 

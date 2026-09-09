@@ -19,8 +19,8 @@
 |---|---|---|
 | lark-cli | 飞书文档/白板（博客初稿、笔记推送） | `~/.lark-cli/`（OAuth，已授权） |
 | gh | GitHub | 钥匙串（`gh auth login` 管理） |
-| d2 | 精确结构图渲染 | 无需凭据（brew 安装） |
-| mermaid (mmdc) | 内联小图 | 无需凭据 |
+| d2 | 精确结构图渲染 | 由 pixi 项目环境提供 |
+| mermaid (mmdc) | 中文 Mermaid 图渲染 | 由 pixi 项目环境提供 |
 | Excalidraw 查看器 | 本地画板（127.0.0.1 服务） | 无需凭据 |
 
 ### 挂账（手册就绪，随时开通）

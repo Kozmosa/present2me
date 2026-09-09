@@ -21,10 +21,10 @@ cd tools/excalidraw-viewer && npm install && npm run build
 
 协议如此：Agent 每次迭代前**重读文件**。如果它基于记忆改图，直接提醒它"先重新读文件"。
 
-## `d2: command not found`
+## D2 或 Mermaid CLI 不可用
 
 ```bash
-brew install d2        # 或 ./setup.sh
+pixi install          # 或 ./setup.sh
 ```
 
 ## status.sh 里 lark-cli 显示 ❌
