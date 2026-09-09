@@ -4,7 +4,7 @@ description: 用 D2 DSL 画图并渲染给用户看。当用户说"画个图""�
 version: 0.2.0
 metadata:
   requires:
-    bins: [d2]
+    bins: [pixi]
 ---
 
 # viz-d2 — D2 结构图绘制
@@ -22,9 +22,9 @@ metadata:
 
 0. **工具链自检**（每次开工第一步，先跑再画图）：
    ```bash
-   command -v d2 && d2 --version    # 本技能全部写法在 d2 v0.8.2（2026-09-08）实测
+   pixi run d2 --version            # 项目环境由 pixi 提供，避免依赖全局 PATH
    ```
-   - 未安装 → 提示用户安装（`brew install d2`；present2me 仓库内 `./setup.sh`；
+   - 未安装 → 提示用户安装 pixi（present2me 仓库内 `./setup.sh`；
      插件用户 `/p2m-setup`），**不要自行尝试其他安装方式**。
    - 版本低于 v0.8.2 → 继续用，但只写「已验证写法」与 references 里的保守
      写法，不脑补新版本语法。
@@ -36,7 +36,7 @@ metadata:
    - 有任务上下文 → `tasks/<活跃任务>/artifacts/<主题>-v<N>.d2`
    - 无任务上下文 → `scratch/<主题>-v<N>.d2`
 4. 渲染并打开（脚本在本技能所在插件的 `tools/` 下；present2me 仓库内根目录
-   `tools/render-d2.sh` 为软链，可直接用）：
+   `tools/render-d2.sh` 为软链，可直接用；仓库内脚本会通过 pixi 调用 d2）：
    ```bash
    <插件根>/tools/render-d2.sh <file.d2>        # 渲染 SVG 并打开
    <插件根>/tools/render-d2.sh -w <file.d2>     # 实时预览（改文件自动刷新）

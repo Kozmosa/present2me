@@ -24,8 +24,8 @@ check: ## 插件级静态检查与 demo 构建校验
 	@pixi run node --check plugins/present2me/tools/build-excalidraw.mjs
 	@pixi run node --check plugins/present2me/tools/validate-excalidraw.mjs
 	@pixi run node --check plugins/present2me/tools/fix-excalidraw-text.mjs
-	@node tools/build-excalidraw.mjs demo/hello.spec.json /tmp/present2me-hello.excalidraw
-	@node tools/validate-excalidraw.mjs /tmp/present2me-hello.excalidraw
+	@pixi run node tools/build-excalidraw.mjs demo/hello.spec.json /tmp/present2me-hello.excalidraw
+	@pixi run node tools/validate-excalidraw.mjs /tmp/present2me-hello.excalidraw
 	@bash tools/release.sh --check
 
 # ---- 文档站（MkDocs via uvx，仓库零污染） ----
@@ -43,7 +43,7 @@ docs-open: ## 构建并打开 site/index.html
 
 spec: ## 从语义骨架构建画板: make spec FILE=demo/hello.spec.json OUT=demo/hello.excalidraw
 	@test -n "$(FILE)" || (echo "用法: make spec FILE=<spec.json> OUT=<out.excalidraw>"; exit 2)
-	@node tools/build-excalidraw.mjs "$(FILE)" "$(OUT)"
+	@pixi run node tools/build-excalidraw.mjs "$(FILE)" "$(OUT)"
 
 board: ## 在本地查看器打开画板: make board FILE=path/to/x.excalidraw
 	@test -n "$(FILE)" || (echo "用法: make board FILE=<文件.excalidraw>"; exit 2)

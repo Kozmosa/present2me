@@ -37,10 +37,14 @@ if [[ ! -f "$IN" ]]; then
 fi
 IN="$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")"
 
-command -v d2 >/dev/null 2>&1 || {
-  echo "d2 未安装：brew install d2（present2me 仓库内可 ./setup.sh；插件用户见 /p2m-setup）" >&2
+if command -v pixi >/dev/null 2>&1 && [[ -f pixi.toml || -f ../pixi.toml ]]; then
+  D2_CMD=(pixi run d2)
+elif command -v d2 >/dev/null 2>&1; then
+  D2_CMD=(d2)
+else
+  echo "d2 不可用：请先安装 pixi 并运行 ./setup.sh（插件用户见 /p2m-setup）" >&2
   exit 1
-}
+fi
 
 cd "$(dirname "$IN")"
 BASE="$(basename "$IN" .d2)"
@@ -49,7 +53,7 @@ if [[ $WATCH -eq 1 ]]; then
   PORT="${D2_PORT:-4199}"
   export HOST="${HOST:-127.0.0.1}"
   echo "实时预览: http://127.0.0.1:$PORT （Ctrl-C 退出）"
-  d2 --watch --port "$PORT" "$IN" "${2:-$BASE.svg}" &
+  "${D2_CMD[@]}" --watch --port "$PORT" "$IN" "${2:-$BASE.svg}" &
   D2PID=$!
   sleep 2
   open "http://127.0.0.1:$PORT" 2>/dev/null || true
@@ -58,7 +62,7 @@ if [[ $WATCH -eq 1 ]]; then
 fi
 
 OUT="${2:-$BASE.$FORMAT}"
-if d2 "$IN" "$OUT"; then
+if "${D2_CMD[@]}" "$IN" "$OUT"; then
   echo "已渲染: $OUT"
   open "$OUT" 2>/dev/null || echo "（自动打开失败，请手动查看）"
 else
