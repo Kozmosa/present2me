@@ -112,6 +112,17 @@ for (const e of rawEdges) {
     if (!nodeIds.has(e?.[end])) { console.error(`edge 的 ${end} 指向不存在的节点: ${e?.[end]}`); process.exit(1); }
   }
 }
+const elementIds = new Set(nodeIds);
+for (const n of rawNodes) elementIds.add(`${n.id}-label`);
+const edgeIds = new Set();
+for (const [i, e] of rawEdges.entries()) {
+  const id = e.id ?? `edge-${i + 1}`;
+  if (edgeIds.has(id) || elementIds.has(id)) {
+    console.error(`edge id 冲突: ${id}`);
+    process.exit(1);
+  }
+  edgeIds.add(id);
+}
 
 // ---------- 节点定尺/定位 ----------
 let autoIndex = 0;
@@ -171,14 +182,23 @@ const edges = rawEdges.map((e, i) => {
   const c1 = { x: a.x + a.width / 2, y: a.y + a.height / 2 };
   const c2 = { x: b.x + b.width / 2, y: b.y + b.height / 2 };
   const dx = c2.x - c1.x, dy = c2.y - c1.y;
-  const t1 = edgeT(dx, dy, a.width / 2, a.height / 2);
-  const t2 = edgeT(-dx, -dy, b.width / 2, b.height / 2);
-  const sx = c1.x + dx * t1, sy = c1.y + dy * t1;
-  const ex = c2.x - dx * t2, ey = c2.y - dy * t2;
+  let sx, sy, ex, ey, points;
+  if (e.from === e.to) {
+    const r = Math.max(24, Math.min(a.width, a.height) * 0.35);
+    sx = a.x + a.width; sy = c1.y;
+    ex = sx; ey = c1.y - r * 2;
+    points = [[0, 0], [r, -r], [r, -r * 2], [0, -r * 2]];
+  } else {
+    const t1 = edgeT(dx, dy, a.width / 2, a.height / 2);
+    const t2 = edgeT(-dx, -dy, b.width / 2, b.height / 2);
+    sx = c1.x + dx * t1; sy = c1.y + dy * t1;
+    ex = c2.x - dx * t2; ey = c2.y - dy * t2;
+    points = [[0, 0], [round(ex - sx), round(ey - sy)]];
+  }
 
   const el = element(id, "arrow", sx, sy, ex - sx, ey - sy, {
     roundness: { type: 2 },
-    points: [[0, 0], [round(ex - sx), round(ey - sy)]],
+    points,
     startBinding: { elementId: e.from, focus: 0, gap: 1 },
     endBinding: { elementId: e.to, focus: 0, gap: 1 },
     startArrowhead: null,
