@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # present2me 一次性 Setup
-# 做四件事：装基础依赖(d2) → 构建 Excalidraw 查看器 → 确保 Claude 软链 → 全工具状态体检
+# 做四件事：装基础依赖(d2/mmdc) → 构建 Excalidraw 查看器 → 确保 Claude 软链 → 全工具状态体检
 # 用法: ./setup.sh           交互确认安装
 #       ./setup.sh --check   只跑状态体检（等价 bash tools/status.sh）
 set -euo pipefail
@@ -31,6 +31,18 @@ else
     fi
   else
     bad "无 brew，请手动安装 d2: https://d2lang.com/tour/install"
+  fi
+fi
+
+if command -v mmdc >/dev/null 2>&1; then
+  ok "mermaid $(mmdc --version 2>/dev/null | head -1)"
+else
+  printf '  mmdc 未安装，Mermaid 中文图渲染将不可用。建议执行: npm install -g @mermaid-js/mermaid-cli\n'
+  read -r -p '  现在安装 mmdc？[y/N] ' ans </dev/tty
+  if [[ "${ans:-N}" =~ ^[Yy]$ ]]; then
+    npm install -g @mermaid-js/mermaid-cli && ok "mmdc 安装完成" || bad "mmdc 安装失败，可稍后手动执行 npm install -g @mermaid-js/mermaid-cli"
+  else
+    bad "跳过 mmdc（Mermaid 图仍可作为代码块输出，但无法本地渲染检查）"
   fi
 fi
 

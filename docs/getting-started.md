@@ -16,7 +16,7 @@ cd present2me
 
 setup 会依次做四件事，全部幂等（重复跑无害）：
 
-1. **基础依赖**：检查 git/node/npm/curl；`d2` 缺失时询问后 `brew install d2`。
+1. **基础依赖**：检查 git/node/npm/curl；`d2` 缺失时询问后 `brew install d2`，`mmdc` 缺失时询问后安装 Mermaid CLI。
 2. **构建 Excalidraw 查看器**：`tools/excalidraw-viewer/` 下 `npm install` + esbuild 打包出 `viewer.js`。
 3. **Agent 目录适配**：确保 `.claude/skills → ../.agents/skills` 软链存在（供 Claude Code）。
 4. **工具授权体检**：跑 `tools/status.sh`，输出全工具状态表。
