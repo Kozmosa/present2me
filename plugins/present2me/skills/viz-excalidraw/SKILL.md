@@ -9,6 +9,8 @@ metadata:
 
 # viz-excalidraw — Excalidraw 白板绘制
 
+展示画板或渲染结果时，必须通过本地 HTTP 服务器提供预览；先探测空闲端口，不要固定占用 8765、4173 等端口。
+
 ## 选型：什么时候用 Excalidraw
 
 | 场景 | 用 Excalidraw？ |

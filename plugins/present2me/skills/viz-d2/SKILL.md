@@ -42,6 +42,7 @@ metadata:
    <插件根>/tools/render-d2.sh -w <file.d2>     # 实时预览（改文件自动刷新）
    <插件根>/tools/render-d2.sh --png <file.d2>  # 同时产出 PNG（视觉评审/贴文档用）
    ```
+   展示 SVG/PNG 时，必须通过本地 HTTP 服务器提供预览；先探测空闲端口，再启动服务器并把地址交给用户。不要固定占用 8765、4173 等端口。
 5. 根据用户反馈直接改 `.d2` 再渲染。**源文件即真相**，不要只改 SVG。
 6. 若图已定稿且用户需要，可推送飞书（走 lark-doc / lark-whiteboard）。
 
