@@ -1,7 +1,7 @@
 ---
 name: viz-mmd
 description: 创建和修正中文友好的 Mermaid 图；当需要对话内小图、流程图或关系图且希望减少编译与排版错误时使用。
-version: 0.1.0
+version: 0.2.0
 ---
 
 # viz-mmd — 中文友好的 Mermaid 图
@@ -21,9 +21,14 @@ version: 0.1.0
 ## 生成后检查
 
 1. 先检查 Mermaid 语法，特别是括号、引号、箭头和节点 ID。
-2. 在本项目中用 `pixi run mmdc` 渲染一次；只有在独立 workspace 且用户明确配置了全局 Mermaid CLI 时才直接调用 `mmdc`。失败时先简化文案和连线，再调整布局。
+2. 渲染验证一次（渲染成功即语法通过）。**优先 present2me MCP**：调用 `render`
+   工具（file=.mmd 绝对路径）。MCP 不可用时降级：本项目中用 `pixi run mmdc`
+   渲染一次；只有在独立 workspace 且用户明确配置了全局 Mermaid CLI 时才直接
+   调用 `mmdc`。失败时先简化文案和连线，再调整布局。
 3. 查看渲染结果，确认中文没有被裁切、节点没有重叠、箭头方向清楚。
-   SVG/PNG 需要展示时，先选择空闲端口启动本地 HTTP 服务器，再打开或交给用户访问；不要假设 8765、4173 等固定端口可用。
+   SVG/PNG 需要展示时，预览地址优先用 MCP `preview` 工具或渲染返回的
+   previewUrl（p2m-server 统一托管端口）；降级路径才自己探测空闲端口启动
+   本地 HTTP 服务器，不要假设固定端口可用。
 4. 对话内小图直接返回 Mermaid 代码块；需要留存时把 `.mmd` 源文件放到当前任务的 `artifacts/`，或放到 `scratch/`。
 
 ## 与其他图形工具的边界

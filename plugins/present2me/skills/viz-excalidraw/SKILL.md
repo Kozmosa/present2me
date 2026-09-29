@@ -1,7 +1,7 @@
 ---
 name: viz-excalidraw
 description: 用语义骨架（节点/标签/样式/连接关系）生成 Excalidraw 手绘风画板/概念图/白板，几何由 builder 计算，本地查看器打开、可回写迭代。当用户说"画个白板""手绘风格""概念图""像 Excalidraw 那种"，或需要自由布局、讨论式草图、低正式感演示时，使用本技能。
-version: 0.3.0
+version: 0.4.0
 metadata:
   requires:
     bins: [node]
@@ -9,7 +9,7 @@ metadata:
 
 # viz-excalidraw — Excalidraw 白板绘制
 
-展示画板或渲染结果时，必须通过本地 HTTP 服务器提供预览；先探测空闲端口，不要固定占用 8765、4173 等端口。
+展示画板或渲染结果时，预览地址优先来自 present2me MCP（viewer 工具的 viewerUrl / preview 工具的 previewUrl，p2m-server 统一托管端口）；MCP 不可用的降级路径才自己探测空闲端口起 HTTP 服务器，不要固定占用 8765、4173 等端口。
 
 ## 选型：什么时候用 Excalidraw
 
@@ -61,14 +61,16 @@ metadata:
    ```
 
    同一 spec 反复构建字节一致——spec 是唯一真相，重建不产生噪声 diff。
-3. **机检**（硬错误必修，警告酌情；规格蒸馏自 0.18.1 官方类型）：
-
+3. **机检**（硬错误必修，警告酌情；规格蒸馏自 0.18.1 官方类型）。
+   **优先 present2me MCP**：调用 `validate` 工具（file=.excalidraw 绝对路径），
+   返回结构化 errors/warnings。降级脚本：
    ```bash
    <插件根>/tools/validate-excalidraw.mjs <out.excalidraw>   # 退出码 1 = 有硬错误
    ```
-4. **打开给用户**（查看器在本技能所在插件的 `tools/excalidraw-viewer/` 下；
-   present2me 仓库内根目录同名路径为软链，可直接用）：
-
+4. **打开给用户**。**优先 present2me MCP**：调用 `viewer` 工具拿 viewerUrl
+   交给用户打开（浏览器内可编辑并保存回同一文件）。降级脚本（查看器在本技能
+   所在插件的 `tools/excalidraw-viewer/` 下；present2me 仓库内根目录同名路径
+   为软链，可直接用）：
    ```bash
    <插件根>/tools/excalidraw-viewer/open.sh <out.excalidraw>
    ```
