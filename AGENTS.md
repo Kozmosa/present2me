@@ -84,7 +84,8 @@
 
 ## 当前接入状态
 
-核心已通：lark-cli（飞书）、gh、D2、Excalidraw 查看器、mermaid。
+核心已通：lark-cli（飞书）、gh、D2、Excalidraw 查看器、mermaid、p2m-server
+（统一渲染服务；stdio MCP 门面经 `/p2m-setup` 注册到各客户端）。
 挂账（手册在 `config/setup-docs/`）：Anki、SiYuan、Notion、Flomo、Google Docs。
 
 以 `bash tools/status.sh` 实时输出为准。

@@ -92,6 +92,7 @@ archive/ scratch/ demo/
 - **已通**：飞书（lark-cli）、GitHub（gh）、D2、Excalidraw 本地查看器、mermaid
 - **挂账**（接入手册就绪，随时开通）：Anki、思源 SiYuan、Notion、Flomo、Google Docs
   → 见 `config/setup-docs/`，登记表 `config/tools.yaml`
-- **MCP**：当前 0 个接入；项目暂不接入 MCP
+- **MCP**：自建 p2m-server stdio 门面已通（render / validate / preview / viewer /
+  status，`/p2m-setup` 一键注册）；不接入第三方 MCP
 
 逐项状态与优先级见 [ROADMAP.md](ROADMAP.md)。
