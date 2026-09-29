@@ -22,7 +22,9 @@ description: present2me 依赖预检 + p2m-server MCP 注册（向 Claude Code /
    `<插件根>/tools/app/.server.log` 向用户报告原因。
 7. **注册 MCP 门面**（写入的是用户级客户端配置，属外部副作用——先向用户
    说明将写什么，确认后执行）：
-   - Claude Code（检测到 `claude` 命令时）：
+   - Claude Code——**经插件市场安装时无需注册**：插件清单的 `mcpServers`
+     已声明 p2m-server 门面，安装即自动生效。仅当用户在 present2me 仓库内
+     直接使用（非插件安装）时，手动注册：
      ```
      claude mcp add --scope user present2me -- node <插件根>/tools/app/mcp.mjs
      ```

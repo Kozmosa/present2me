@@ -16,11 +16,11 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import readline from "node:readline";
 import { fileURLToPath } from "node:url";
+import { VERSION } from "./version.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PORT_FILE = path.join(HERE, ".server.port");
-const VERSION = await readFile(path.resolve(HERE, "..", "..", ".zcode-plugin", "plugin.json"), "utf8")
-  .then(s => JSON.parse(s).version).catch(() => "0.0.0");
+const APP_VERSION = await VERSION;
 
 // ---------- web 服务单例（附着或带起） ----------
 let cachedPort = null;
@@ -141,7 +141,7 @@ async function dispatch(msg) {
       return {
         protocolVersion: msg.params?.protocolVersion || "2025-06-18",
         capabilities: { tools: { listChanged: false } },
-        serverInfo: { name: "present2me", version: VERSION },
+        serverInfo: { name: "present2me", version: APP_VERSION },
         instructions: "present2me 渲染服务：写图先 validate 再 render；源文件即真相；详细写法知识见仓库 viz-* 技能。",
       };
     case "ping":

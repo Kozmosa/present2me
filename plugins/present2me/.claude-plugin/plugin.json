@@ -1,0 +1,33 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "present2me",
+  "version": "0.4.1",
+  "description": "Agent 讲解·演示·协作能力包：概念讲解编排（explain-concept）、D2 结构图、Excalidraw 白板、隔离任务上下文协议，以及论文精读 / 博客共写 / 即时讲解三大工作流命令。",
+  "author": {
+    "name": "Kozmosa",
+    "url": "https://github.com/Kozmosa"
+  },
+  "homepage": "https://github.com/Kozmosa/present2me",
+  "repository": "https://github.com/Kozmosa/present2me",
+  "license": "MIT",
+  "keywords": [
+    "explain",
+    "visualization",
+    "d2",
+    "excalidraw",
+    "mermaid",
+    "mcp",
+    "workflow",
+    "task-context",
+    "writing"
+  ],
+  "mcpServers": {
+    "present2me": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/tools/app/mcp.mjs"
+      ]
+    }
+  }
+}
