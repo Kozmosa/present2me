@@ -27,6 +27,8 @@ const VIEWER_DIR = path.resolve(HERE, "..", "excalidraw-viewer");
 const PORT = Number(process.argv[2] || process.env.PORT || 4173);
 const HOST = "127.0.0.1";
 const RENDER_TIMEOUT_MS = 60_000;
+const VERSION = await readFile(path.resolve(HERE, "..", "..", ".zcode-plugin", "plugin.json"), "utf8")
+  .then(s => JSON.parse(s).version).catch(() => "0.0.0");
 
 // 允许根：静态读取与写回都限制在这些目录内。
 // 初始根来自 P2M_SERVE_ROOT；此后由 /api/roots 与渲染请求动态注册。
@@ -109,7 +111,7 @@ const server = http.createServer(async (req, res) => {
     const u = new URL(req.url, `http://${HOST}`);
 
     if (req.method === "GET" && u.pathname === "/api/health") {
-      return send(200, { ok: true, app: "p2m-server", port: PORT, roots: [...roots] });
+      return send(200, { ok: true, app: "p2m-server", version: VERSION, port: PORT, roots: [...roots] });
     }
 
     if (req.method === "POST" && u.pathname === "/api/roots") {
