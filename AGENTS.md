@@ -8,7 +8,7 @@
 
 | 路径 | 用途 |
 |---|---|
-| `plugins/present2me/` | **插件体（单一事实源）**：skills / tools / workflows / commands / config，随 ZCode 与 Codex 插件市场分发 |
+| `plugins/present2me/` | **插件体（单一事实源）**：skills / tools（含 `tools/app/` 应用层服务）/ workflows / commands / config，随 ZCode 与 Codex 插件市场分发 |
 | `marketplace.json` | ZCode 插件市场清单（安装入口 `Kozmosa/present2me`） |
 | `.agents/plugins/marketplace.json` | Codex 插件市场清单（安装入口 `codex plugin marketplace add Kozmosa/present2me`） |
 | `tasks/<日期>-<slug>/` | 进行中任务（隔离上下文，gitignored 本地数据），协议见 task-context 技能 |
@@ -19,6 +19,14 @@
 | `archive/` | 已完结任务（gitignored 本地数据） |
 | `scratch/` | 无任务上下文的临时讲解产物（gitignored） |
 | `tools/` | docs.sh（文档站，实体）+ status.sh / render-d2.sh / p2m / build-excalidraw.mjs / validate-excalidraw.mjs / fix-excalidraw-text.mjs / excalidraw-viewer（软链 → 插件 tools/）+ release.sh（发版） |
+
+## 应用 + 技能双层架构（v0.4.0 起）
+
+渲染与工具链能力收在**应用层** `plugins/present2me/tools/app/`（p2m-server）：
+web 服务（127.0.0.1，`p2m.sh ensure` 单例管理，默认 4173）+ 同进程 stdio MCP
+门面（工具 render / validate / preview / viewer / status）。技能是纯客户端：
+写图知识（语法/选型/报错解读）留技能层，执行调 MCP 工具，脚本为降级路径。
+`/p2m-setup` 负责预检、健康检查与向各客户端注册 MCP。
 | `config/tools.yaml` | 软链 → 插件 config/tools.yaml：全部工具登记表 |
 | `config/setup-docs/` | 挂账工具接入手册（工作区面，不随插件分发） |
 | `demo/` | 能力演示样例 |

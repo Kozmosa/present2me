@@ -6,7 +6,7 @@
 仓库提供的是：
 
 1. **一张登记表**：`config/tools.yaml`（软链 → 插件 `plugins/present2me/config/`）——每工具的检查命令、开通方式、手册链接。
-2. **一条命令总览**：`bash tools/status.sh`——逐项探测，输出 ✅/❌，同时落盘插件目录的 `config/setup-state.json`。
+2. **一条命令总览**：`bash tools/status.sh`——逐项探测，输出 ✅/❌，同时落盘插件目录的 `config/setup-state.json`。同一计算还挂在 p2m-server `GET /api/status` 与 MCP `status` 工具上（Agent 会话内可直接查）。
 3. **一套接入手册**：`config/setup-docs/`——挂账工具怎么开，开一个算一个。
 
 **铁律：任何 token/secret 不写入本仓库、不打印到终端。**
@@ -17,11 +17,12 @@
 
 | 工具 | 用途 | 凭据在哪 |
 |---|---|---|
+| p2m-server | 统一渲染服务（d2/mmd 渲染、校验、查看器与预览托管；MCP 门面） | 无需凭据（127.0.0.1） |
 | lark-cli | 飞书文档/白板（博客初稿、笔记推送） | `~/.lark-cli/`（OAuth，已授权） |
 | gh | GitHub | 钥匙串（`gh auth login` 管理） |
 | d2 | 精确结构图渲染 | 由 pixi 项目环境提供 |
 | mermaid (mmdc) | 中文 Mermaid 图渲染 | 由 pixi 项目环境提供 |
-| Excalidraw 查看器 | 本地画板（127.0.0.1 服务） | 无需凭据 |
+| Excalidraw 查看器 | 本地画板（经 p2m-server 托管） | 无需凭据 |
 
 ### 挂账（手册就绪，随时开通）
 
@@ -35,13 +36,16 @@
 
 开通任何一个后跑 `bash tools/status.sh` 确认变 ✅ 即可，Agent 自动获得对应能力说明。
 
-## status.sh 详解
+## status 详解
 
 ```bash
 bash tools/status.sh          # 人读表格（含修复提示和手册路径）
 bash tools/status.sh --json   # 机器读 JSON（Agent 用）
 ./setup.sh --check            # 等价于 status.sh
 ```
+
+真身是 `plugins/present2me/tools/app/status.mjs`（status.sh 为薄壳）；
+p2m-server 把同一计算挂在 `GET /api/status`，MCP 门面暴露为 `status` 工具。
 
 检查都是**只读探测**（如 `lark-cli whoami`、curl 本地端口、检查 token 文件存在），
 不会产生写操作，也不会把密钥带出来。思源的 token 由 `tools/siyuan-token.sh`

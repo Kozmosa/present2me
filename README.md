@@ -82,7 +82,8 @@ archive/ scratch/ demo/
 1. **文件即真相**：`.d2` / `.excalidraw` / draft-vN.md 全部是可读可 diff 的源文件；
    Excalidraw 查看器支持把用户在画板上的修改保存回文件，人机共编同一份真相。
 2. **原生凭据，零仓库**：每个工具用各自的官方登录态（lark-cli `~/.lark-cli/`、gh 钥匙串…），
-   仓库不存任何密钥；`tools/status.sh` 一条命令聚合全部授权状态。
+   仓库不存任何密钥；`tools/status.sh`（真身 p2m-server `status.mjs`，另有 `/api/status`
+   与 MCP `status` 工具）一条命令聚合全部授权状态。
 3. **任务隔离**：每个任务一个文件夹，任何 Agent 先读 TASK.md 即可无缝接手，不靠聊天历史。
 4. **风格学习闭环**：博客定稿时自动保存「Agent 末版 vs 用户终版」版本对与改动分析，
    累积进 style-profile.md，让初稿越写越像用户本人。

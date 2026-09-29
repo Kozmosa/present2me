@@ -15,7 +15,7 @@
 
 ---
 
-## 现状快照（v0.3.0 · 2026-09-09）
+## 现状快照（v0.4.0 · 2026-09-29）
 
 | 维度 | 数量 | 明细 |
 |---|---|---|
@@ -84,7 +84,7 @@ bash tools/status.sh                            # 实时接入状态
 
 | 能力 | 载体 | 状态 | 验证情况 |
 |---|---|---|---|
-| 工具接入状态总览 | `tools/status.sh` + `config/tools.yaml` | ✅ | 本次实跑，输出 5 通 / 6 未通 |
+| 工具接入状态总览 | `tools/status.sh`（真身 `tools/app/status.mjs`）+ `/api/status` + MCP `status` | ✅ | 2026-09-29 实跑：11 工具并发探测 1s 出全量；顺带修复旧实现单引号 check 永假的存量缺陷 |
 | 一次性环境搭建 | `setup.sh` / `make setup` | 🟡 | 脚本就位，本次未从头实跑 |
 | 文档站（MkDocs Material） | `tools/docs.sh` + `mkdocs.yml` | 🟡 | uvx v0.11.2 就位；本次未 build/serve |
 | 插件双市场发版 | `tools/release.sh` / `make release` | 🟡 | 脚本就位，本次未实跑 |
@@ -179,3 +179,4 @@ Claude Code / Codex 注册；三个 viz 技能执行段已改为 MCP 优先、�
 | 2026-09-09 | v0.2.0 | 改为「语义骨架 → 构建」：新增 `tools/build-excalidraw.mjs`，Agent 不再手算坐标/文字宽度/绑定；demo 改由 `demo/hello.spec.json` 重建（viz-excalidraw 技能 0.3.0） |
 | 2026-09-29 | — | 落地应用+技能双层架构 Phase 1：新增 p2m-server（`tools/app/`，d2/mmd 渲染端点 + 查看器/预览统一托管 + 端口单例），render-d2.sh / 查看器 open.sh 改瘦客户端（本地直跑保留为降级），viewer 版 server.mjs 并入后删除；工具登记 +1 |
 | 2026-09-29 | — | Phase 2 落地：校验收口 `/validate`（validate-excalidraw 模块化双入口，d2 validate 判定以输出为准），stdio MCP 门面 `mcp.mjs`（五动词，MCP 优先/脚本降级写进三个 viz 技能），`/p2m-setup` 升级为预检+健康检查+MCP 注册；技能版本 viz-d2 0.3.0 / viz-mmd 0.2.0 / viz-excalidraw 0.4.0 |
+| 2026-09-29 | — | Phase 3 落地：工具状态收进服务（`status.mjs` 单一真身双入口 + `/api/status` + MCP `status` 升级，修复单引号解析存量缺陷）；AGENTS/README/docs 架构描述全面改写为双层形态 |
