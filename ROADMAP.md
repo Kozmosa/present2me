@@ -58,7 +58,7 @@ bash tools/status.sh                            # 实时接入状态
 | Excalidraw JSON 校验器 | `tools/validate-excalidraw.mjs` | ✅ | 实跑；`demo/hello.excalidraw` 已通过（见「已修复」）；含容器内文字垂直居中检查 |
 | Excalidraw 文字位置修正器 | `tools/fix-excalidraw-text.mjs` | ✅ | 实跑：`--dry-run` / 修正 / 幂等三态验证，旧画板修正后校验通过 |
 | Mermaid 中文友好图 | `skills/viz-mmd` v0.1.0 + pixi `mmdc` | ✅ | `demo/hello-mmd.mmd` 已通过 pixi 环境实际渲染为 SVG |
-| 统一渲染服务 p2m-server（d2/mmd 渲染、查看器与预览托管、端口单例） | `tools/app/`（server.mjs + render.mjs + p2m.sh） | 🟡 | 2026-09-29 实跑：`/render/d2` 渲染+预览 URL ✅、语法错误透传 ✅、瘦客户端降级 ✅；`/render/mmd` 因宿主沙箱阻断浏览器启动，错误透传已验证、真实渲染待无沙箱环境终验 |
+| 统一渲染服务 p2m-server（d2/mmd 渲染、查看器与预览托管、端口单例） | `tools/app/`（server.mjs + render.mjs + p2m.sh） | ✅ | 2026-09-29 实跑：`/render/d2`、`/render/mmd` 渲染+预览 URL ✅（mmd 于无沙箱终端终验通过）、语法错误透传 ✅、瘦客户端降级 ✅ |
 | 飞书白板 | 用户级 `lark-whiteboard` 技能 | 🧪 | 非本项目自有能力，按需借用 |
 
 ### 3. 任务上下文层 ✅
