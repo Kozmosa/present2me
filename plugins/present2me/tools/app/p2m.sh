@@ -36,8 +36,12 @@ healthy() {
 }
 
 wait_healthy() {
-  local i
-  for i in $(seq 1 40); do healthy "$1" && return 0; sleep 0.25; done
+  local port=$1 pid=$2 i
+  for i in $(seq 1 40); do
+    healthy "$port" && return 0
+    kill -0 "$pid" 2>/dev/null || return 1  # 进程已死，无需等满轮询
+    sleep 0.25
+  done
   return 1
 }
 
@@ -51,7 +55,7 @@ case "$cmd" in
       if healthy "$CAND"; then echo "$CAND"; echo "$CAND" >"$PORT_FILE"; exit 0; fi
       nohup "${NODE_CMD[@]}" "$APP_DIR/server.mjs" "$CAND" >>"$LOG_FILE" 2>&1 &
       echo $! >"$PID_FILE"; echo "$CAND" >"$PORT_FILE"
-      if wait_healthy "$CAND"; then echo "$CAND"; exit 0; fi
+      if wait_healthy "$CAND" $!; then echo "$CAND"; exit 0; fi
     done
     echo "p2m-server 启动失败，详见 $LOG_FILE" >&2; exit 1
     ;;
