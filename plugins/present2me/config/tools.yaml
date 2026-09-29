@@ -35,7 +35,7 @@ tools:
   - id: p2m-server
     name: present2me 渲染服务（p2m-server）
     category: viz
-    check: 'node --check tools/app/server.mjs && test -x tools/app/p2m.sh'
+    check: node --check tools/app/server.mjs && test -x tools/app/p2m.sh
     how: "随插件分发零依赖；运行态按需拉起：bash tools/app/p2m.sh ensure"
     doc: null
   - id: anki
