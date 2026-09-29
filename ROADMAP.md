@@ -22,8 +22,8 @@
 | 技能 skill | **5** | explain-concept · viz-d2 · viz-excalidraw · viz-mmd · task-context |
 | 命令 command | **4** | `/quick-explain` `/study-paper` `/blog-cowrite` `/p2m-setup` |
 | 工作流剧本 workflow | **3** | quick-explain · study-paper · blog-cowrite |
-| 工具登记 | **10** | 已通 5 · 挂账 5 |
-| MCP | **0 接入** | 本项目不接入 MCP |
+| 工具登记 | **11** | 已通 6 · 挂账 5 |
+| MCP | **0 接入** | 不接入第三方 MCP；自建 p2m-server MCP 门面计划中（见下） |
 
 复现命令（仓库根执行）：
 
@@ -58,6 +58,7 @@ bash tools/status.sh                            # 实时接入状态
 | Excalidraw JSON 校验器 | `tools/validate-excalidraw.mjs` | ✅ | 实跑；`demo/hello.excalidraw` 已通过（见「已修复」）；含容器内文字垂直居中检查 |
 | Excalidraw 文字位置修正器 | `tools/fix-excalidraw-text.mjs` | ✅ | 实跑：`--dry-run` / 修正 / 幂等三态验证，旧画板修正后校验通过 |
 | Mermaid 中文友好图 | `skills/viz-mmd` v0.1.0 + pixi `mmdc` | ✅ | `demo/hello-mmd.mmd` 已通过 pixi 环境实际渲染为 SVG |
+| 统一渲染服务 p2m-server（d2/mmd 渲染、查看器与预览托管、端口单例） | `tools/app/`（server.mjs + render.mjs + p2m.sh） | 🟡 | 2026-09-29 实跑：`/render/d2` 渲染+预览 URL ✅、语法错误透传 ✅、瘦客户端降级 ✅；`/render/mmd` 因宿主沙箱阻断浏览器启动，错误透传已验证、真实渲染待无沙箱环境终验 |
 | 飞书白板 | 用户级 `lark-whiteboard` 技能 | 🧪 | 非本项目自有能力，按需借用 |
 
 ### 3. 任务上下文层 ✅
@@ -99,9 +100,11 @@ bash tools/status.sh                            # 实时接入状态
 
 ## 未实现 / 挂账
 
-### MCP：不接入
+### MCP：不接入第三方
 
-本项目暂不接入 Excalidraw MCP 或其他 MCP 服务。
+本项目不接入 Excalidraw MCP 或其他第三方 MCP 服务。
+方向相反的**自建** MCP：p2m-server（统一渲染服务）计划在同一进程挂 stdio MCP 门面
+（render / preview / viewer / validate / status），见任务 `tasks/2026-09-29-app-server`。
 
 ### 知识沉淀出口：全部挂账 🧪
 
@@ -171,3 +174,4 @@ bash tools/status.sh                            # 实时接入状态
 | 2026-09-09 | v0.2.0 | 修复 demo 白板：校验通过 + 两处渲染缺陷（标题撞工具栏、中心文字贴顶）；同步修正 viz-excalidraw 参考文档中的容器文字几何说明 |
 | 2026-09-09 | v0.2.0 | 补上「文字位置奇怪」这类问题的检测与修复：校验器新增 `W_TEXT_VCENTER`，新增 `tools/fix-excalidraw-text.mjs` |
 | 2026-09-09 | v0.2.0 | 改为「语义骨架 → 构建」：新增 `tools/build-excalidraw.mjs`，Agent 不再手算坐标/文字宽度/绑定；demo 改由 `demo/hello.spec.json` 重建（viz-excalidraw 技能 0.3.0） |
+| 2026-09-29 | — | 落地应用+技能双层架构 Phase 1：新增 p2m-server（`tools/app/`，d2/mmd 渲染端点 + 查看器/预览统一托管 + 端口单例），render-d2.sh / 查看器 open.sh 改瘦客户端（本地直跑保留为降级），viewer 版 server.mjs 并入后删除；工具登记 +1 |

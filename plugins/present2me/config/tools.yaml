@@ -32,6 +32,12 @@ tools:
     check: test -f tools/excalidraw-viewer/viewer.js
     how: "excalidraw-viewer 目录 npm install && npm run build（仓库内可 ./setup.sh；插件用户见 /p2m-setup）"
     doc: null
+  - id: p2m-server
+    name: present2me 渲染服务（p2m-server）
+    category: viz
+    check: 'node --check tools/app/server.mjs && test -x tools/app/p2m.sh'
+    how: "随插件分发零依赖；运行态按需拉起：bash tools/app/p2m.sh ensure"
+    doc: null
   - id: anki
     name: Anki（anki-connect）
     category: knowledge

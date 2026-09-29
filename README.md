@@ -72,7 +72,7 @@ marketplace.json     ZCode 插件市场清单（本仓库即市场）
 workflows/           → plugins/present2me/workflows（剧本软链）
 tasks/               隔离任务文件夹（TASK.md 为上下文锚点；个人数据，gitignored）
 knowledge/           style-pairs 风格语料 · style-profile.md 风格档案 · insights（gitignored）
-tools/               docs.sh · release.sh（实体）+ status.sh · render-d2.sh · 查看器（软链）
+tools/               docs.sh · release.sh（实体）+ status.sh · render-d2.sh · p2m · 查看器（软链）
 config/              tools.yaml 软链 · setup-docs/ 挂账工具接入手册
 archive/ scratch/ demo/
 ```
