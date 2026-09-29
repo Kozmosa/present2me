@@ -98,7 +98,7 @@ const TOOLS = [
   },
   {
     name: "status",
-    description: "查询 p2m-server 状态：端口、已注册允许根。用于排障与健康检查。",
+    description: "查询 present2me 全部工具接入状态：p2m-server 服务（端口/允许根/版本）+ 登记表逐项探测（飞书/gh/d2/mmdc/查看器/挂账工具…，✅=就绪）。探测为只读，不泄密。用于排障、/p2m-setup 健康检查。",
     inputSchema: { type: "object", properties: {} },
   },
 ];
@@ -126,7 +126,7 @@ const handlers = {
     return { ok: true, viewerUrl: `http://127.0.0.1:${port}/viewer/index.html?file=${encodeURIComponent(path.basename(abs))}` };
   },
   async status() {
-    return api("GET", "/api/health");
+    return api("GET", "/api/status");
   },
 };
 

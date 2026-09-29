@@ -21,6 +21,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { render, validateD2 } from "./render.mjs";
 import { validateData } from "../validate-excalidraw.mjs";
+import { checkTools } from "./status.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const VIEWER_DIR = path.resolve(HERE, "..", "excalidraw-viewer");
@@ -112,6 +113,18 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && u.pathname === "/api/health") {
       return send(200, { ok: true, app: "p2m-server", version: VERSION, port: PORT, roots: [...roots] });
+    }
+
+    if (req.method === "GET" && u.pathname === "/api/status") {
+      const tools = await checkTools(); // 并发只读探测，最慢一条 ~15s
+      const ready = tools.filter(t => t.ready).length;
+      return send(200, {
+        ok: true, app: "p2m-server", version: VERSION, port: PORT,
+        roots: [...roots],
+        summary: `${ready}/${tools.length} 就绪`,
+        tools,
+        checked_at: Math.floor(Date.now() / 1000),
+      });
     }
 
     if (req.method === "POST" && u.pathname === "/api/roots") {
