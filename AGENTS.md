@@ -11,6 +11,7 @@
 | `plugins/present2me/` | **插件体（单一事实源）**：skills / tools（含 `tools/app/` 应用层服务）/ workflows / commands / config，随 ZCode 与 Codex 插件市场分发 |
 | `marketplace.json` | ZCode 插件市场清单（安装入口 `Kozmosa/present2me`） |
 | `.agents/plugins/marketplace.json` | Codex 插件市场清单（安装入口 `codex plugin marketplace add Kozmosa/present2me`） |
+| `.claude-plugin/marketplace.json` | Claude Code 插件市场清单（安装入口 `claude plugin marketplace add Kozmosa/present2me`） |
 | `tasks/<日期>-<slug>/` | 进行中任务（隔离上下文，gitignored 本地数据），协议见 task-context 技能 |
 | `tasks/_template/` | 任务文件夹模板（随仓库分发） |
 | `workflows/` | 软链 → 插件 workflows/：study-paper / blog-cowrite / quick-explain 剧本 |
@@ -98,18 +99,23 @@ web 服务（127.0.0.1，`p2m.sh ensure` 单例管理，默认 4173）+ 同进�
 
 以 `bash tools/status.sh` 实时输出为准。
 
-## 插件发布渠道（ZCode + Codex marketplace）
+## 插件发布渠道（ZCode + Codex + Claude Code 三市场）
 
-本仓库同时是 ZCode 与 Codex 的插件市场，共用插件体 `plugins/present2me/`，
-插件清单共用 `.zcode-plugin/plugin.json`（Codex 原生接受该路径，安装时自动
-归一化出 `.codex-plugin/` 并把 commands/ 迁移为 `source-command-*` 技能）。
-两平台各读自己的市场清单：ZCode 读根 `marketplace.json`，Codex 读
-`.agents/plugins/marketplace.json`（条目不带版本号，发版无需第三处同步）。
+本仓库同时是 ZCode、Codex 与 Claude Code 的插件市场，共用插件体 `plugins/present2me/`，
+插件清单 `.zcode-plugin/plugin.json` 与 `.claude-plugin/plugin.json` 并列同构
+（Codex 原生接受 `.zcode-plugin/` 路径，安装时自动归一化出 `.codex-plugin/` 并把
+commands/ 迁移为 `source-command-*` 技能；Claude Code 安装时把 commands/ 并入
+skills 发现，并经插件根 `mcp.json` 自动注册 p2m-server MCP 门面）。三平台各读
+自己的市场清单：ZCode 读根 `marketplace.json`，Codex 读
+`.agents/plugins/marketplace.json`，Claude Code 读 `.claude-plugin/marketplace.json`
+（Codex 市场条目不带版本号）。
 
 - **ZCode**：设置 → 插件 → 添加市场 → `Kozmosa/present2me`
 - **Codex（CLI ≥0.121）**：`codex plugin marketplace add Kozmosa/present2me` →
-  `codex plugin add present2me@kozmosa-plugins`
+ `codex plugin add present2me@kozmosa-plugins`
+- **Claude Code**：`claude plugin marketplace add Kozmosa/present2me` →
+ `claude plugin install present2me@kozmosa-plugins`（装完即自动获得 MCP 五工具）
 
 外部用户得到 4 个技能与 4 个命令（不含本工作区的个人数据）。发版：
-`make release VERSION=x.y.z`（校验、双版本同步、commit、tag；push 由用户执行）。
+`make release VERSION=x.y.z`（校验、三版本同步、commit、tag；push 由用户执行）。
 版本一致性检查：`make release-check`。

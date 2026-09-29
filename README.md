@@ -22,12 +22,13 @@ bash tools/status.sh  # 随时查看所有工具接入状态
 快速开始 · 多 Agent 接入 · 讲解与可视化 · 任务文件夹 · 工作流 · 工具与凭据 · 常见问题。
 功能实现进度、挂账项与优先级见 [ROADMAP.md](ROADMAP.md)。
 
-## 作为插件安装（ZCode / Codex，任意工作区，无需克隆本仓库）
+## 作为插件安装（ZCode / Codex / Claude Code，任意工作区，无需克隆本仓库）
 
-本仓库同时是 ZCode 与 Codex 的插件市场（marketplace）：插件体为
-`plugins/present2me/`，两平台各读自己的市场清单（ZCode 读根 `marketplace.json`，
-Codex 读 `.agents/plugins/marketplace.json`），插件清单共用
-`.zcode-plugin/plugin.json`（Codex 原生接受该路径）。
+本仓库同时是 ZCode、Codex 与 Claude Code 的插件市场（marketplace）：插件体为
+`plugins/present2me/`，三平台各读自己的市场清单（ZCode 读根 `marketplace.json`，
+Codex 读 `.agents/plugins/marketplace.json`，Claude Code 读
+`.claude-plugin/marketplace.json`），插件清单 `.zcode-plugin/plugin.json` 与
+`.claude-plugin/plugin.json` 并列同构。
 
 **ZCode：**
 
@@ -42,15 +43,22 @@ codex plugin marketplace add Kozmosa/present2me
 codex plugin add present2me@kozmosa-plugins
 ```
 
+**Claude Code：**
+
+```
+claude plugin marketplace add Kozmosa/present2me
+claude plugin install present2me@kozmosa-plugins
+```
+（经市场安装即自动注册 p2m-server MCP 门面，无需手动 `claude mcp add`）
+
 装完得到 5 个技能（explain-concept / viz-d2 / viz-excalidraw / viz-mmd / task-context）与
 4 个命令（`/quick-explain` `/study-paper` `/blog-cowrite` `/p2m-setup`；Codex 端
 命令以迁移技能 `source-command-*` 形式生效），先跑一次 `/p2m-setup` 做依赖预检
 （pixi 工具链、D2、Mermaid CLI、Excalidraw 查看器构建）。个人数据（knowledge/、tasks/）不随插件分发，
 留在各自工作区。
 
-发版（维护者）：`make release VERSION=x.y.z` —— 同步 `plugin.json` 与
-`marketplace.json` 双版本号并打 tag；两处版本必须一致，否则用户端不提示更新
-（Codex 市场条目不带版本号，无需第三处同步）。
+发版（维护者）：`make release VERSION=x.y.z` —— 同步三处版本号并打
+tag；各处版本必须一致，否则用户端不提示更新。
 
 ## 各 Agent 接入方式
 
