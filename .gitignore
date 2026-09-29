@@ -32,3 +32,8 @@ plugins/present2me/config/setup-state.json
 plugins/present2me/tools/excalidraw-viewer/.server.pid
 plugins/present2me/tools/excalidraw-viewer/.server.port
 plugins/present2me/tools/excalidraw-viewer/assets/
+
+# p2m-server 运行时文件
+plugins/present2me/tools/app/.server.pid
+plugins/present2me/tools/app/.server.port
+plugins/present2me/tools/app/.server.log
