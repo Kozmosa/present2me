@@ -52,7 +52,7 @@ bash tools/status.sh                            # 实时接入状态
 | 能力 | 载体 | 状态 | 验证情况 |
 |---|---|---|---|
 | D2 结构图（流程/架构/时序/ER） | `skills/viz-d2` v0.3.0 + `tools/render-d2.sh` | ✅ | 本次实跑：d2 v0.8.2 渲染 `demo/hello-d2.d2` → SVG 成功 |
-| D2 实时预览 / PNG 输出 | `render-d2.sh -w` / `--png` | 🟡 | 代码就位，本次未实跑 |
+| D2 实时预览 / PNG 输出 | `render-d2.sh -w` / `--png` | ✅ | 2026-09-29 实跑：PNG 经 p2m-server 渲染成功（v0.9.0，服务端吸收 pixi 旧版 playwright driver 404 问题）；watch 仍本地直跑 |
 | Excalidraw 手绘白板（语义骨架 → 构建） | `skills/viz-excalidraw` v0.4.0 + `tools/build-excalidraw.mjs` | ✅ | 实跑：`demo/hello.excalidraw` 由 `demo/hello.spec.json` 重建，校验通过；反复构建字节一致 |
 | Excalidraw 本地查看器 + 保存回写 | `tools/excalidraw-viewer/`（viewer.js 8.4 MB） | ✅ | 实跑：`/api/health` 正常、`/viewer/index.html` 200、`.excalidraw` 200 |
 | Excalidraw JSON 校验器 | `tools/validate-excalidraw.mjs` | ✅ | 实跑；`demo/hello.excalidraw` 已通过（见「已修复」）；含容器内文字垂直居中检查 |

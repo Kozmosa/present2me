@@ -2,7 +2,7 @@
 // render.mjs — p2m-server 渲染执行封装（pixi 优先，PATH 次之）
 // 服务端唯一的「机器如何处理文件」知识：找工具链、跑编译、控超时。
 // 语法该怎么写、报错怎么解读属于技能层，不在这里。
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -15,11 +15,20 @@ const PROJECT_ROOT = path.resolve(HERE, "..", "..", "..", "..");
 const PIXI_TOML = path.join(PROJECT_ROOT, "pixi.toml");
 
 function command(kind) {
-  if (existsSync(PIXI_TOML)) {
-    const pixi = ["pixi", "run", "--manifest-path", PIXI_TOML];
-    return kind === "d2" ? [...pixi, "d2"] : [...pixi, "mmdc"];
+  if (kind === "d2") {
+    // d2：PATH 优先，pixi 兜底。pixi 锁定的 d2（conda-forge 0.7.1）依赖的
+    // playwright driver 已在 CDN 下架（404，PNG 导出不可用）；brew/官方渠道的
+    // 新版 d2 正常。插件用户若只有 pixi 环境，PATH 无 d2 时自动回退。
+    const which = spawnSync("bash", ["-c", "command -v d2"], { encoding: "utf8" });
+    if (which.status === 0 && which.stdout.trim()) return ["d2"];
+    if (existsSync(PIXI_TOML)) return ["pixi", "run", "--manifest-path", PIXI_TOML, "d2"];
+    return ["d2"];
   }
-  return [kind === "d2" ? "d2" : "mmdc"];
+  // mmdc：pixi 优先（setup task 专为它安装了 mermaid-cli 与浏览器），PATH 兜底
+  if (existsSync(PIXI_TOML)) {
+    return ["pixi", "run", "--manifest-path", PIXI_TOML, "mmdc"];
+  }
+  return ["mmdc"];
 }
 
 // 环境自愈（mmdc 用 puppeteer 启动浏览器，是工具链环境问题重灾区）：

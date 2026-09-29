@@ -32,12 +32,16 @@ PID_FILE="$APP_DIR/.server.pid"
 PORT_FILE="$APP_DIR/.server.port"
 LOG_FILE="$APP_DIR/.server.log"
 PORT_CANDIDATES=(4173 4174 4175 4176 4180 4190)
+# 插件升级后，已运行的单例可能还是旧代码——按 plugin.json 版本判漂移
+EXPECTED_VER="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["version"])' "$PLUGIN_ROOT/.zcode-plugin/plugin.json" 2>/dev/null || echo unknown)"
 
-# 必须命中 p2m-server 标识：旧 excalidraw-viewer 服务也有 /api/health，不可复用
+# 必须命中 p2m-server 标识且版本与插件一致：
+# 旧 excalidraw-viewer 服务也有 /api/health（无 app 标识）；插件升级后旧代码进程不再复用
 healthy() {
   local resp
   resp="$(curl -sf -m 1 "http://127.0.0.1:$1/api/health" 2>/dev/null)" || return 1
-  [[ "$resp" == *'"app":"p2m-server"'* ]]
+  [[ "$resp" == *'"app":"p2m-server"'* ]] || return 1
+  [[ "$resp" == *'"version":"'"$EXPECTED_VER"'"'* ]]
 }
 
 wait_healthy() {

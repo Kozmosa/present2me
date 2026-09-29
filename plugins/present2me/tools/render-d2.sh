@@ -4,7 +4,7 @@
 #   tools/render-d2.sh <file.d2>              渲染 SVG 并打开（优先走 p2m-server）
 #   tools/render-d2.sh <file.d2> <输出.svg>   指定输出路径（本地直跑，不经服务）
 #   tools/render-d2.sh -w <file.d2>           实时预览（本地 d2 --watch，不经服务）
-#   tools/render-d2.sh --png <file.d2>        输出 PNG（本地直跑；服务端 PNG 待浏览器依赖修复）
+#   tools/render-d2.sh --png <file.d2>        输出 PNG（同样优先服务端）
 # 服务未运行且无法拉起时自动降级为本地 pixi/d2 直跑；渲染报错（语法错）原样透传，
 # 降级重跑也不会有不同结果，故不再回退。
 set -euo pipefail
@@ -43,12 +43,16 @@ if [[ ! -f "$IN" ]]; then
 fi
 IN="$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")"
 
-# ---- 本地直跑路径（watch / 自定义输出 / PNG / 服务降级共用）----
+# ---- 本地直跑路径（watch / 自定义输出 / 服务降级共用）----
 d2_cmd() {
-  if command -v pixi >/dev/null 2>&1 && [[ -f "$PROJECT_ROOT/pixi.toml" ]]; then
+  # PATH 优先（新版 d2 的 PNG 可用），pixi 兜底（其锁定的 0.7.1 driver 已下架）
+  if command -v d2 >/dev/null 2>&1; then
+    d2 "$@"
+  elif command -v pixi >/dev/null 2>&1 && [[ -f "$PROJECT_ROOT/pixi.toml" ]]; then
     pixi run --manifest-path "$PROJECT_ROOT/pixi.toml" d2 "$@"
   else
-    d2 "$@"
+    echo "d2 不可用：请先安装（brew install d2 或见 /p2m-setup）" >&2
+    exit 1
   fi
 }
 
@@ -72,10 +76,10 @@ if [[ $WATCH -eq 1 ]]; then
   exit 0
 fi
 
-# ---- 一次性 SVG 渲染：优先 p2m-server ----
-if [[ $FORMAT == svg && $CUSTOM_OUT -eq 0 ]]; then
+# ---- 一次性渲染（svg/png）：优先 p2m-server ----
+if [[ $CUSTOM_OUT -eq 0 ]]; then
   if PORT="$(bash "$PLUGIN_ROOT/tools/app/p2m.sh" ensure 2>/dev/null)"; then
-    PAYLOAD="$(python3 -c 'import json,sys; print(json.dumps({"file": sys.argv[1]}))' "$IN")"
+    PAYLOAD="$(python3 -c 'import json,sys; print(json.dumps({"file": sys.argv[1], "format": sys.argv[2]}))' "$IN" "$FORMAT")"
     if RESP="$(curl -sf -m 90 -X POST -H 'Content-Type: application/json' -d "$PAYLOAD" "http://127.0.0.1:$PORT/render/d2")"; then
       OK="$(printf '%s' "$RESP" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("ok"))')"
       if [[ "$OK" == "True" ]]; then
