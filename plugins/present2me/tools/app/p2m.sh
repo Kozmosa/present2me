@@ -17,10 +17,15 @@ APP_DIR="$(cd -P "$(dirname "$SELF")" && pwd)"
 PLUGIN_ROOT="$(cd "$APP_DIR/../.." && pwd)"
 PROJECT_ROOT="$(cd "$PLUGIN_ROOT/../.." && pwd)"
 
-if command -v pixi >/dev/null 2>&1 && [[ -f "$PROJECT_ROOT/pixi.toml" ]]; then
+# node 优先走 PATH：pixi run node 会让 $! 指向 pixi 中间层而非 node 本尊，
+# 导致 stop 杀不掉服务；pixi 仅作无系统 node 时的兜底。
+if command -v node >/dev/null 2>&1; then
+  NODE_CMD=(node)
+elif command -v pixi >/dev/null 2>&1 && [[ -f "$PROJECT_ROOT/pixi.toml" ]]; then
   NODE_CMD=(pixi run --manifest-path "$PROJECT_ROOT/pixi.toml" node)
 else
-  NODE_CMD=(node)
+  echo "node 不可用：请安装 Node.js ≥20（或经 pixi 工具链）" >&2
+  exit 1
 fi
 
 PID_FILE="$APP_DIR/.server.pid"

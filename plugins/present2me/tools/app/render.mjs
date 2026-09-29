@@ -97,3 +97,15 @@ export async function render(kind, inFile, format, timeoutMs) {
     : detail || `渲染器退出码 ${code}`;
   return { ok: false, error: why };
 }
+
+// d2 validate：不出图的快速语法检查。d2 以输出为准（退出码不可信，
+// 与 viz-d2 技能铁律一致）：输出含 err: 前缀即失败，行列号在文本里。
+export async function validateD2(inFile, timeoutMs) {
+  const [cmd, ...base] = command("d2");
+  const { code, out: stdout, err: stderr } = await run(cmd, [...base, "validate", inFile], timeoutMs);
+  const text = (stderr || stdout || "").trim();
+  if (code === null) return { ok: false, error: `d2 不可用：${text || "启动失败"}` };
+  if (/^err:/m.test(text) || (code !== 0 && text)) return { ok: false, error: text };
+  if (code !== 0) return { ok: false, error: `d2 validate 退出码 ${code}` };
+  return { ok: true, message: text || "valid" };
+}

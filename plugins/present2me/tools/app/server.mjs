@@ -19,7 +19,8 @@ import { readFile, writeFile, realpath } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { render } from "./render.mjs";
+import { render, validateD2 } from "./render.mjs";
+import { validateData } from "../validate-excalidraw.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const VIEWER_DIR = path.resolve(HERE, "..", "excalidraw-viewer");
@@ -143,6 +144,34 @@ const server = http.createServer(async (req, res) => {
       const result = await render(kind, abs, format === "png" ? "png" : "svg", RENDER_TIMEOUT_MS);
       if (!result.ok) return send(200, { ok: false, error: result.error });
       return send(200, { ok: true, output: result.output, previewUrl: previewUrl(result.output) });
+    }
+
+    if (req.method === "POST" && u.pathname === "/validate") {
+      const { file } = await readBody(req);
+      if (!file || typeof file !== "string") return send(400, { ok: false, error: "bad payload" });
+      const abs = path.isAbsolute(file) ? path.resolve(file) : resolveInRoots(file);
+      if (!abs || !existsSync(abs)) return send(400, { ok: false, error: `file not found: ${file}` });
+      await addRoot(path.dirname(abs));
+      if (abs.endsWith(".d2")) {
+        const r = await validateD2(abs, RENDER_TIMEOUT_MS);
+        return send(200, { ok: r.ok, engine: "d2", ...(r.ok ? { message: r.message } : { error: r.error }) });
+      }
+      if (abs.endsWith(".mmd")) {
+        // mermaid 无独立校验器：渲染即校验（成功 = 语法通过）
+        const r = await render("mmd", abs, "svg", RENDER_TIMEOUT_MS);
+        return send(200, { ok: r.ok, engine: "mmdc", ...(r.ok ? { message: "rendered ok" } : { error: r.error }) });
+      }
+      if (abs.endsWith(".excalidraw")) {
+        let data;
+        try {
+          data = JSON.parse(await readFile(abs, "utf8").then(b => b.toString().replace(/^﻿/, "")));
+        } catch (e) {
+          return send(200, { ok: false, engine: "excalidraw", errors: [{ elementId: null, code: "E_PARSE", message: `JSON 解析失败: ${e.message}` }], warnings: [] });
+        }
+        const { errors, warnings, elementCount } = validateData(data);
+        return send(200, { ok: errors.length === 0, engine: "excalidraw", errors, warnings, elementCount });
+      }
+      return send(400, { ok: false, error: "unsupported extension (expected .d2 / .mmd / .excalidraw)" });
     }
 
     if (req.method !== "GET" && req.method !== "HEAD") {
